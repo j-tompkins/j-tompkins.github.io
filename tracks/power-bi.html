@@ -17,32 +17,66 @@
   </header>
 
   <main class="container">
+    
     <section class="intro">
       <h2>Interactive Dashboard</h2>
       <p>This report demonstrates a basic-to-iterative build: model design, DAX measures, and report layouts.</p>
     </section>
 
-    <!-- Embed goes here (Publish to web) -->
-    <section>
-      <div class="card">
-        <h3>Global Health Indicators Dashboard</h3>
-        <p class="meta">Interactive Power BI report</p>
-        <div style="position:relative;padding-top:56.25%;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card)">
-          <div style="position:relative;padding-top:56.25%;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card)">
-            <iframe
-              title="SalesTrendsPortfolio"
-              src="https://app.powerbi.com/reportEmbed?reportId=122a0258-ada3-4bd6-a096-f7b80515dcd5&autoAuth=true&ctid=8a1b0d29-d7a0-47ed-8667-4253ded97941"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-        <p style="margin-top:.75rem">
-          <a class="button" href="https://app.powerbi.com/..." target="_blank" rel="noopener">Open in Power BI</a>
-        </p>
-        <p class="meta">Note: Publish-to-web makes the report publicly accessible. Use redacted/sample data.</p>
-      </div>
-    </section>
+    <!-- Project 1: Sales Trends (static) -->
+    <article class="card">
+      <h3>Sales Trends Dashboard</h3>
+      <p class="meta">Baseline — clean visuals + core measures</p>
+
+      <a href="../assets/img/powerbi/sales-trends.png" target="_blank" rel="noopener">
+        <img src="../assets/img/powerbi/sales-trends.png" 
+          alt="Sales Trends dashboard screenshot" 
+          style="width:100%;height:auto;border-radius:8px;border:1px solid var(--border)"/>
+      </a>
+
+      <!-- PBIX download (add file in /assets/pbix/sales-trends.pbix) -->
+      <p style="margin-top:.75rem">
+        <a class="button" href="../assets/pbix/sales-trends.pbix" target="_blank" rel="noopener">Download PBIX</a>
+      </p>
+
+      <details style="margin-top:.75rem">
+        <summary style="cursor:pointer"><strong>Build notes</strong></summary>
+        <ul style="margin:.5rem 0 0 1.25rem">
+          <li>Model: OLTP joins (Invoices, InvoiceLines, Customers, StockItems) → simple star.</li>
+          <li>Measures: <code>Total Sales</code>, <code>Total Quantity</code>, <code>YoY Sales %</code>.</li>
+          <li>Visuals: KPI cards, Monthly trend, Donut (Sales by Region), Top‑10 Products.</li>
+          <li>Troubleshooting: dropped live embed due to auth; used static PNG + write‑up.</li>
+        </ul>
+      </details>
+    </article>
+
+    <!-- Project 2: WideWorldImporters (advanced) -->
+    <article class="card">
+      <h3>WideWorldImporters — Continued</h3>
+      <p class="meta">Dimensional model • segments • comparisons</p>
+
+      <!-- Screenshot (update the filename if needed) -->
+      <a href="../assets/img/powerbi/wwi-advanced.png" target="_blank" rel="noopener">
+        <img src="../assets/img/powerbi/wwi-advanced.png"
+            alt="WWI Advanced intermediate dashboard screenshot"
+            style="width:100%;height:auto;border-radius:8px;border:1px solid var(--border)"/>
+      </a>
+
+      <!-- PBIX download (place your file at /assets/pbix/wwi-advanced.pbix) -->
+      <p style="margin-top:.75rem">
+        <a class="button" href="../assets/pbix/wwi-advanced.pbix" target="_blank" rel="noopener">Download PBIX</a>
+      </p>
+
+      <details style="margin-top:.75rem">
+        <summary style="cursor:pointer"><strong>Build notes</strong></summary>
+        <ul style="margin:.5rem 0 0 1.25rem">
+          <li>Model: WideWorldImportersDW (<code>Fact.Sale</code>, <code>Fact.Stock Holding</code>, <code>Dimension.Date</code>, <code>Customer</code>, <code>Stock Item</code>).</li>
+          <li>Measures used: <code>Total Sales</code>, <code>Total Quantity</code>, <code>YoY Sales %</code>, comparisons (e.g., Avg/Max across items).</li>
+          <li>Visuals on “Inventory” page: segment donut, Top‑N bar, stacked/clustered columns, trend comparison line, matrix heatmap.</li>
+          <li>Notes: relationships set to single‑direction to avoid ambiguous paths; static image used to avoid live auth issues.</li>
+        </ul>
+      </details>
+    </article>
 
     <section>
       <h2>Build Notes</h2>
@@ -52,6 +86,7 @@
         <li>Design: consistent color palette, KPI cards, and small multiples.</li>
       </ul>
     </section>
+
   </main>
 
   <footer class="container footer"><small>© <span id="year"></span> Justin Tompkins</small></footer>
