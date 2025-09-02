@@ -12,6 +12,11 @@ __pycache__/
 env/
 .idea/
 
+# Ignore large GIS source data
+*.geojson
+*.xml
+*.zip
+
 # ---- Notebooks (if you start using them later)
 .ipynb_checkpoints/
 

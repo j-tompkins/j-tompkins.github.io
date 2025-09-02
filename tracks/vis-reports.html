@@ -19,14 +19,38 @@
   <main class="container">
     
     <section class="intro">
-      <h2>Interactive Dashboard</h2>
-      <p>This report demonstrates a basic-to-iterative build: model design, DAX measures, and report layouts.</p>
+      <h2>Project Overview</h2>
+      <p>
+        My first goal was to showcase a live Power BI dashboard embedded directly in the portfolio. After multiple attempts,
+        I found that authentication requirements created a barrier for anyone without access to my Microsoft account.
+        To keep the portfolio universally accessible, I chose to provide high-resolution screenshots and downloadable
+        <code>.pbix</code> files so viewers can open, explore, and interact locally without account or system constraints.
+      </p>
+      <p>
+        Looking ahead, I plan to publish interactive dashboards with Tableau Public as a more open option for sharing live,
+        browser-based reports. This will let visitors engage with filters and comparisons online while I continue to document
+        design choices, data modeling decisions, and tradeoffs between convenience, control, and reproducibility.
+      </p>
+      <p>
+        As I iterate, I’m prioritizing explanations of “why” alongside “what”: why a donut replaced the map, why a fixed 90-day
+        window stabilizes comparisons, and why downloadable files improve access. The portfolio aims to show decisions, not just
+        outputs, so that a reviewer can follow the modeling choices, troubleshooting steps, and the rationale for publishing
+        formats that fit real-world constraints.
+      </p>
     </section>
+
 
     <!-- Project 1: Sales Trends (static) -->
     <section class="project">
       <h3>Sales Trends Dashboard</h3>
       <p class="meta">Baseline — clean visuals + core measures</p>
+
+      <p>
+        The Sales Trends dashboard began as a baseline for clean measures and visuals and became a study in practical publishing.
+        Dynamic map visuals were replaced with a donut for distribution and a Top-10 bar for focus, which simplified the layout
+        without losing the story. The current approach balances clarity and performance, and the included <code>.pbix</code> lets
+        anyone open the model to inspect relationships, DAX, and visual settings end-to-end.
+      </p>
 
       <a href="../assets/img/powerbi/sales-trends.png" target="_blank" rel="noopener">
         <img src="../assets/img/powerbi/sales-trends.png" 
@@ -54,6 +78,15 @@
     <section class="project">
       <h3>WideWorldImporters — Continued</h3>
       <p class="meta">Dimensional model • segments • comparisons</p>
+
+      <p>
+       The “Inventory” dashboard connects sales activity with stock levels to show how categories contribute differently over time. 
+       I calculated overall sales and growth measures in DAX, then used a mix of clustered and stacked charts to highlight which 
+       items and customers drive the most change. A donut chart provides a snapshot of contribution by category, while line and 
+       bar charts track performance month to month.  The visuals are designed to communicate both scale and comparison, combining 
+       distribution charts with time-based trends. The portfolio includes a screenshot for quick reference, and the 
+       <code>.pbix</code> lets reviewers interact with the report in Power BI.
+      </p>
 
       <!-- Screenshot (update the filename if needed) -->
       <a href="../assets/img/powerbi/wwi-advanced.png" target="_blank" rel="noopener">
