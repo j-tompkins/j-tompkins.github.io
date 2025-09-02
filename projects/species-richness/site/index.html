@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Analysis and choropleth maps of rare aquatic species richness across California HUC12 watersheds." />
   <link rel="stylesheet" href="../../styles.css"/>
+  <style>
+  body { background: #f6f8fa; }
+  .card, figure { background: #fff; }
+  </style>
 </head>
 <body>
   <header class="container header">
@@ -21,7 +25,28 @@
   <main class="container">
     <section class="intro">
       <h2>Project Overview</h2>
-      <p>This project explores California’s aquatic rare species richness dataset (ACE ds2748) at the HUC12 watershed level. It includes exploratory data analysis (EDA) and static choropleth maps created using Python and GeoPandas.</p>
+      <p>
+        This project explores California’s aquatic rare species richness dataset (ACE ds2748) at the HUC12 watershed level. 
+        It includes exploratory data analysis (EDA) and static choropleth maps created using Python and GeoPandas.  
+        I have always enjoyed the outdoors and the intersection between my interests and data is GIS. 
+        My goal was to start working on a project that introduces me to GIS concepts while allowing me to expand and 
+        showcase my data skills as well. 
+        Source: <a href="https://data.ca.gov/dataset/aquatic-rare-species-richness-summary-ace-ds2748" target="_blank" rel="noopener">
+          State of California Aquatic Species Richness Data
+        </a>
+      </p>
+      <p>
+        I structured the project as a reproducible pipeline. I loaded the ACE ds2748 CSV with explicit types 
+        (HUC12 as string to preserve IDs), ran basic validation, and produced five quick figures for exploratory analysis 
+        (rank distribution, richness histogram, two cross-taxon checks, and a top-15 bar chart). For mapping, 
+        I chose GeoJSON over Shapefile to simplify file handling in Python and for future web use. Because my GeoJSON contained 
+        only boundaries, I joined attributes from the CSV on HUC12, normalizing both keys as strings to avoid float/‘.0’ 
+        mismatches. I saved two static choropleths—rank and continuous richness—using GeoPandas, with simple outlines for 
+        readability and legends enabled. Finally, I published a lightweight HTML page in my GitHub Pages repo, 
+        referencing the generated figures by relative path. Version control tracked all changes; I excluded large source data 
+        via .gitignore to keep the repo fast and focused on outputs. My goal is to create a workflow that would allow me to 
+        easily produce these figures and others from similar datasets.
+      </p>
     </section>
 
     <section class="grid">
@@ -29,21 +54,20 @@
         <img src="../figures/rank_counts.png" alt="Bar chart of HUC12 counts by rare aquatic species rank" />
         <figcaption>Counts of watersheds by rarity rank (<code>RarAqRankSW</code>).</figcaption>
       </figure>
+      <p>
+        I started by looking at how watersheds distribute across rarity ranks. Most HUC12s fall into low–mid tiers, 
+        with a thinner tail at Rank 5. Using this to inform the rest of the analysis, I realized that while hotspots exist, 
+        they are not the norm.
+      </p>
       <figure>
         <img src="../figures/richness_hist.png" alt="Histogram of normalized richness scores" />
         <figcaption>Distribution of normalized richness (<code>RarAqSumSW</code>).</figcaption>
       </figure>
-    </section>
-
-    <section class="grid">
-      <figure>
-        <img src="../figures/scatter_fish_vs_amph.png" alt="Scatter of rare fish vs amphibians" />
-        <figcaption>Rare Fish vs Amphibians by watershed.</figcaption>
-      </figure>
-      <figure>
-        <img src="../figures/scatter_fish_vs_rept.png" alt="Scatter of rare fish vs reptiles" />
-        <figcaption>Rare Fish vs Reptiles by watershed.</figcaption>
-      </figure>
+      <p>
+        The normalized richness (RarAqSumSW) is right-skewed: a small number of the watersheds hold relatively high richness. 
+        With the knowledge of the skew, I felt that using quantiles as a classification choice would be better than others, 
+        such as intervas.
+      </p>
     </section>
 
     <section>
@@ -52,9 +76,22 @@
         <img src="../figures/top_richness_bar.png" alt="Top 15 watersheds by normalized richness" />
         <figcaption>Top 15 HUC12 watersheds by <code>RarAqSumSW</code>.</figcaption>
       </figure>
+      <p>
+        Next, I pulled the top 15 HUC12s by normalized richness. 
+        This decision was more exploratory in nature, as I was simply interested in richest watersheds in the state.
+        An additional benefit is that this shortlist provides 15 places where limited resources could 
+        be applied to have the most impact. Supporting these 15 rich watersheds would support the 
+        conservation of a greater number of species.
+      </p>
     </section>
 
     <section class="grid">
+      <p>
+        I published two views: a categorical rank map for quick scanning and a continuous richness map for nuance. 
+        Together, they balance readability with detail. In QGIS, I compared quantiles vs. Jenks to see how classification shifts 
+        perception.  At this portion of the project I am working to publish my QGIS and documentation of a comparison of 
+        working with python and the QGIS environment online.
+      </p>
       <figure>
         <img src="../figures/map_rank.png" alt="Choropleth of species rarity rank" />
         <figcaption>Choropleth map of species rarity rank by HUC12.</figcaption>
