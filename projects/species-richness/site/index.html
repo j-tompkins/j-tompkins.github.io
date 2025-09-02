@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Species Richness • Justin Tompkins</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Analysis and choropleth maps of rare aquatic species richness across California HUC12 watersheds." />
+  <link rel="stylesheet" href="../../styles.css"/>
+</head>
+<body>
+  <header class="container header">
+    <h1>Species Richness (Aquatic Rare Species, ACE ds2748)</h1>
+    <p class="tagline">pandas • geopandas • choropleths</p>
+    <nav class="nav">
+      <a href="../../index.html">Home</a>
+      <a href="../../tracks/python-gis.html">GIS Track</a>
+      <a href="../../about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <h2>Project Overview</h2>
+      <p>This project explores California’s aquatic rare species richness dataset (ACE ds2748) at the HUC12 watershed level. It includes exploratory data analysis (EDA) and static choropleth maps created using Python and GeoPandas.</p>
+    </section>
+
+    <section class="grid">
+      <figure>
+        <img src="figures/rank_counts.png" alt="Bar chart of HUC12 counts by rare aquatic species rank" />
+        <figcaption>Counts of watersheds by rarity rank (<code>RarAqRankSW</code>).</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/richness_hist.png" alt="Histogram of normalized richness scores" />
+        <figcaption>Distribution of normalized richness (<code>RarAqSumSW</code>).</figcaption>
+      </figure>
+    </section>
+
+    <section class="grid">
+      <figure>
+        <img src="figures/scatter_fish_vs_amph.png" alt="Scatter of rare fish vs amphibians" />
+        <figcaption>Rare Fish vs Amphibians by watershed.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/scatter_fish_vs_rept.png" alt="Scatter of rare fish vs reptiles" />
+        <figcaption>Rare Fish vs Reptiles by watershed.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Top Watersheds</h2>
+      <figure>
+        <img src="figures/top_richness_bar.png" alt="Top 15 watersheds by normalized richness" />
+        <figcaption>Top 15 HUC12 watersheds by <code>RarAqSumSW</code>.</figcaption>
+      </figure>
+    </section>
+
+    <section class="grid">
+      <figure>
+        <img src="figures/map_rank.png" alt="Choropleth of species rarity rank" />
+        <figcaption>Choropleth map of species rarity rank by HUC12.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/map_richness.png" alt="Choropleth of normalized richness" />
+        <figcaption>Choropleth map of normalized richness (<code>RarAqSumSW</code>) by HUC12.</figcaption>
+      </figure>
+    </section>
+  </main>
+
+<section>
+  <h2>Mapping Decisions and Takeaways</h2>
+  <p>
+    A key part of this project was making decisions about data formats and mapping approaches.
+    I started with the California ACE ds2748 dataset in CSV form and explored whether to use
+    Shapefiles or GeoJSON for spatial joins. Shapefiles are still common in GIS,
+    but they come with multiple sidecar files and some quirks (field length limits, encoding issues). 
+    GeoJSON, on the other hand, is a single text-based file that is easier to manage, integrates smoothly
+    with Python and web tools, and is well suited for portfolio projects. After weighing the tradeoffs,
+    I used GeoJSON for this analysis. The decision was not just technical—it reflects my learning process
+    and awareness of how choices in data format affect workflow and reproducibility.
+  </p>
+  <p>
+    The choropleth maps themselves were created with GeoPandas. I chose to visualize both a categorical
+    <em>rank</em> map and a continuous <em>richness</em> map. This combination provides an overview (easy for 
+    non-technical readers to grasp) alongside more nuanced detail (useful for analysts and scientists).
+    My next steps are to experiment with classification methods(quantiles, Jenks natural breaks, etc.),
+    refine color choices for clarity and accessibility, and document these experiments as a 
+    “choropleth choices” guide for future projects.
+  </p>
+  <p>
+    I also plan to strengthen my GIS toolkit by practicing with QGIS, which is widely used in the public
+    sector as an alternative to ESRI’s ArcGIS. This will include recreating my maps in QGIS, exporting layouts,
+    and experimenting with symbology and legends. By combining Python workflows with QGIS practice, I can
+    demonstrate both reproducible code-based methods and practical cartographic skills.
+  </p>
+</section>
+
+  <footer class="container footer">
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+  <script src="../../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+# ---- OS / Editor junk
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# ---- Python caches / virtual envs
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
+.idea/
+
+# ---- Notebooks (if you start using them later)
+.ipynb_checkpoints/
+
+# ---- GIS: large/raw datasets (keep CSVs small & web assets)
+# Shapefiles (a directory of sidecar files)
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.sbn
+*.sbx
+*.qix
+*.qpj
+
+# Geodatabases / project files
+*.gdb
+*.gpkg
+*.qgz
+*.qgs
+*.qml
+*.lyr
+*.lyrx
+
+# Rasters / tiles (can be huge)
+*.tif
+*.tiff
+*.img
+*.vrt
+*.mbtiles
+
+# Archives you might download
+*.zip
+*.7z
+*.rar
+
+# ---- Node / bundlers (if you add tooling later)
+node_modules/
+dist/
+build/
