@@ -48,3 +48,23 @@ p {
   line-height: 1.6;   /* adds breathing room between lines */
   margin-bottom: 1em; /* extra space after each paragraph */
 }
+
+.intro p { margin-bottom: .75rem; }
+
+.grid { justify-items: start; align-items: start; }
+
+.grid figure {
+  background: transparent;  /* or keep #fff if you want cards */
+  border: 0;
+  padding: 0;
+  margin: 0 0 1rem;
+  width: fit-content;
+}
+
+.grid img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; 
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
