@@ -22,6 +22,34 @@
     </nav>
   </header>
 
+  <section>
+    <h2>Mapping Decisions and Takeaways</h2>
+    <p>
+      A key part of this project was making decisions about data formats and mapping approaches.
+      I started with the California ACE ds2748 dataset in CSV form and explored whether to use
+      Shapefiles or GeoJSON for spatial joins. Shapefiles are still common in GIS,
+      but they come with multiple sidecar files and some quirks (field length limits, encoding issues). 
+      GeoJSON, on the other hand, is a single text-based file that is easier to manage, integrates smoothly
+      with Python and web tools, and is well suited for portfolio projects. After weighing the tradeoffs,
+      I used GeoJSON for this analysis. The decision was not just technical—it reflects my learning process
+      and awareness of how choices in data format affect workflow and reproducibility.
+    </p>
+    <p>
+      The choropleth maps themselves were created with GeoPandas. I chose to visualize both a categorical
+      <em>rank</em> map and a continuous <em>richness</em> map. This combination provides an overview (easy for 
+      non-technical readers to grasp) alongside more nuanced detail (useful for analysts and scientists).
+      My next steps are to experiment with classification methods(quantiles, Jenks natural breaks, etc.),
+      refine color choices for clarity and accessibility, and document these experiments as a 
+      “choropleth choices” guide for future projects.
+    </p>
+    <p>
+      I also plan to strengthen my GIS toolkit by practicing with QGIS, as an alternative to ESRI’s ArcGIS. This will 
+      include recreating my maps in QGIS, exporting layouts, and experimenting with symbology and legends. By combining 
+      Python workflows with QGIS practice, I can demonstrate both reproducible code-based methods and practical cartographic 
+      skills.
+    </p>
+  </section>
+
   <main class="container">
     <section class="intro">
       <h2>Project Overview</h2>
@@ -102,34 +130,6 @@
       </figure>
     </section>
   </main>
-
-<section>
-  <h2>Mapping Decisions and Takeaways</h2>
-  <p>
-    A key part of this project was making decisions about data formats and mapping approaches.
-    I started with the California ACE ds2748 dataset in CSV form and explored whether to use
-    Shapefiles or GeoJSON for spatial joins. Shapefiles are still common in GIS,
-    but they come with multiple sidecar files and some quirks (field length limits, encoding issues). 
-    GeoJSON, on the other hand, is a single text-based file that is easier to manage, integrates smoothly
-    with Python and web tools, and is well suited for portfolio projects. After weighing the tradeoffs,
-    I used GeoJSON for this analysis. The decision was not just technical—it reflects my learning process
-    and awareness of how choices in data format affect workflow and reproducibility.
-  </p>
-  <p>
-    The choropleth maps themselves were created with GeoPandas. I chose to visualize both a categorical
-    <em>rank</em> map and a continuous <em>richness</em> map. This combination provides an overview (easy for 
-    non-technical readers to grasp) alongside more nuanced detail (useful for analysts and scientists).
-    My next steps are to experiment with classification methods(quantiles, Jenks natural breaks, etc.),
-    refine color choices for clarity and accessibility, and document these experiments as a 
-    “choropleth choices” guide for future projects.
-  </p>
-  <p>
-    I also plan to strengthen my GIS toolkit by practicing with QGIS, which is widely used in the public
-    sector as an alternative to ESRI’s ArcGIS. This will include recreating my maps in QGIS, exporting layouts,
-    and experimenting with symbology and legends. By combining Python workflows with QGIS practice, I can
-    demonstrate both reproducible code-based methods and practical cartographic skills.
-  </p>
-</section>
 
   <footer class="container footer">
     <small>© <span id="year"></span> Justin Tompkins</small>
