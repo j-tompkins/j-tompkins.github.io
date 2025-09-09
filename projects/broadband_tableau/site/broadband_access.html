@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Broadband Access & the Digital Divide (Tableau) — California</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- If your site has a global stylesheet, keep using it; the tiny CSS below only handles layout polish -->
+  <style>
+    :root {
+      --ink:#0f172a;         /* text */
+      --sub:#334155;         /* subheadings */
+      --teal:#0ea5a4;        /* accents */
+      --teal-soft:#e6f7f6;   /* light bg chips */
+      --line:#e5e7eb;        /* separators */
+    }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink); line-height:1.6; margin:0; }
+    header, main { max-width: 980px; margin: 0 auto; padding: 24px; }
+    h1{ margin: 0.5rem 0 0.25rem }
+    h2{ color:var(--sub); margin-top:2rem }
+    h3{ margin-top:1.25rem }
+    p.lead{ font-size:1.1rem; color:#1f2937 }
+    .tag { display:inline-block; background:var(--teal-soft); color:#065f5b; padding:4px 10px; border-radius:999px; font-size:0.85rem; margin-right:8px }
+    .grid { display:grid; gap:18px }
+    .grid-2 { grid-template-columns: 1fr; }
+    @media (min-width: 900px){ .grid-2{ grid-template-columns: 1.1fr 0.9fr } }
+    figure{ margin: 0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff }
+    figure img{ width:100%; display:block }
+    figcaption{ padding:10px 12px; font-size:0.9rem; color:#475569; background:#fafafa; border-top:1px solid var(--line) }
+    .kpis{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px }
+    .kpi{ border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:#fff }
+    .kpi h4{ margin:0 0 4px; color:#0b7285 }
+    .kpi .value{ font-size:1.6rem; font-weight:700 }
+    .sep{ height:1px; background:var(--line); margin:22px 0 }
+    .note{ font-size:0.9rem; color:#475569 }
+    .code{ background:#0b728510; border:1px dashed #0b7285; padding:12px; border-radius:8px; overflow:auto }
+    .cta{ border-left:4px solid var(--teal); padding:12px 14px; background:#f0fdfa; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Tableau • Broadband • California • Equity</div>
+  <h1>Broadband Access & the Digital Divide (California)</h1>
+  <p class="lead">
+    A Tableau Public dashboard exploring how <strong>poverty</strong> aligns with the <strong>broadband adoption gap</strong> and
+    <strong>unserved households</strong> across California counties, using CPUC and ACS data.
+  </p>
+</header>
+
+<main>
+
+  <section id="overview">
+    <h2>Overview & Driving Question</h2>
+    <p>
+      <em>Driving question:</em> <strong>How does broadband adoption vary across California counties, and what does the gap between service availability and actual adoption tell us when combined with poverty and demographic characteristics?</strong>
+    </p>
+    <p>
+      The story that emerged: California’s last-mile <em>availability</em> is high (statewide unserved ≈ low), but the
+      <strong>adoption gap</strong> is where the digital divide lives. I focused on four visuals:
+      a filled map of poverty %, a stacked bar (offered vs. connections), a bubble chart relating poverty to adoption gap
+      (size = connections), and a bar of unserved share. Together, they surface outliers and priority counties.
+    </p>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="dashboard">
+    <h2>Interactive Dashboard (Tableau Public)</h2>
+
+ <div class="sep"></div>
+
+  <section id="method">
+    <h2>Method & Build Notes</h2>
+    <h3>Preparation</h3>
+    <ul>
+      <li>Extracted CPUC county PDFs (Adoption & Served Status) → Excel.</li>
+      <li>Pulled ACS 5-year (2023) S1701 (Poverty %) and DP05 (demographics) → CSV.</li>
+      <li>Built a <code>county_master.csv</code> with:
+        <em>All_HH, Households_Offered, Consumer_Connections, Adoption_Rate, Served/Unserved 25/3, Poverty_Pct</em>.</li>
+      <li>Derived: <em>Adoption_Gap = Offered − Connections</em>, <em>Unserved_Share = Unserved / All_HH</em>.</li>
+    </ul>
+
+    <h3>Visual decisions (blue–teal)</h3>
+    <ul>
+      <li><strong>Poverty filled map:</strong> context for economic hardship.</li>
+      <li><strong>Stacked bar (Offered vs Connections):</strong> intuitive view of the adoption gap.</li>
+      <li><strong>Bubble (Poverty × Adoption Gap, size=Connections):</strong> surfaces outliers.</li>
+      <li><strong>Bar (Unserved Share):</strong> ranks coverage gaps separately from adoption.</li>
+      <li><strong>KPIs:</strong> Offered vs Connections, Adoption Gap (hh), Adoption Rate.</li>
+    </ul>
+
+    <h3>What I learned / resolved from notes</h3>
+    <ul>
+      <li><strong>Poverty vs Income:</strong> For this use case, poverty % was the sharper equity signal; income can be added later if needed.</li>
+      <li><strong>GEOIDs vs County names:</strong> Used County in Tableau for readability; kept GEOIDs for QGIS joins later.</li>
+      <li><strong>Legends vs hover:</strong> Kept at least one color legend visible (map/bubble). Others rely on tooltips for a clean layout.</li>
+      <li><strong>Sorting & Top-N:</strong> Bars sorted by <em>Adoption_Gap</em>; Top-N filter used to focus when needed.</li>
+    </ul>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="findings">
+    <h2>Findings & Interpretation</h2>
+    <ul>
+      <li><strong>Statewide access is high,</strong> but adoption lags — the divide is behavioral/economic, not purely infrastructural.</li>
+      <li><strong>High-gap, low-poverty outliers</strong> suggest non-economic barriers (awareness, device availability, digital literacy, plan affordability).</li>
+      <li><strong>High-poverty, high-gap clusters</strong> align with equity priorities for targeted outreach and subsidy programs.</li>
+    </ul>
+    <p class="note">Limitations: adoption is from reported connections; “availability” reflects advertised service tiers (25/3). DP05 demographics retained for future expansion.</p>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="next">
+    <h2>Next Steps</h2>
+    <ul>
+      <li>Add a QGIS companion (tract-level hot spots, RUCA rurality, county priority index).</li>
+      <li>Parameterized “Top-N by Gap” and demographic overlays.</li>
+      <li>Time-series comparison if prior CPUC vintages are added.</li>
+    </ul>
+    <div class="cta">
+      Coming soon: the QGIS build will live here as a linked section, using the same data foundation (with GEOIDs).
+    </div>
+  </section>
+
+    <!-- If you have a published Tableau link, paste it into the iframe below (replace WORKBOOK and DASHBOARD names). 
+    <div class="code">
+       Publish Steps (Tableau Public):
+        1) File → Save to Tableau Public → sign in.
+        2) On your Tableau Public profile, open the dashboard → Share.
+        3) Copy the "Embed Code". It looks like:
+           https://public.tableau.com/views/WORKBOOK_NAME/DASHBOARD_NAME?:showVizHome=no&:embed=y
+        4) Replace the src below with your URL.
+      
+      <p><strong>Embed snippet (replace with your actual URL):</strong></p>
+      <pre>&lt;div class="tableau-outer" style="position:relative;padding-top:62%;max-width:980px;margin:auto"&gt;
+  &lt;iframe
+    src="https://public.tableau.com/views/WORKBOOK_NAME/DASHBOARD_NAME?:showVizHome=no&amp;:embed=y"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+    allowfullscreen
+    title="Broadband Access — Tableau Dashboard"&gt;&lt;/iframe&gt;
+&lt;/div&gt;</pre>
+    </div>
+  -->
+
+    <!-- Static screenshot fallback -->
+    <figure style="margin-top:14px">
+      <img src="../assets/img/tableau/broadband_dashboard.png" alt="Broadband Access — Tableau Dashboard Screenshot">
+      <figcaption>Static preview of the Tableau dashboard (blue–teal palette).</figcaption>
+    </figure>
+  </section>
+
+  <div class="sep"></div>
+
+<!-- 
+  <section id="kpis">
+    <h2>Headline KPIs</h2>
+    <div class="kpis">
+      <div class="kpi">
+        <h4>Households Offered vs. Connections</h4>
+        <div class="value">TODO</div>
+        <div class="note">Supply vs. use. Where service exists, how many households remain offline?</div>
+      </div>
+      <div class="kpi">
+        <h4>Adoption Gap (Households)</h4>
+        <div class="value">TODO</div>
+        <div class="note">Total households not adopting despite being offered service.</div>
+      </div>
+      <div class="kpi">
+        <h4>Broadband Adoption Rate</h4>
+        <div class="value">TODO%</div>
+        <div class="note">Connections ÷ Households Offered (statewide).</div>
+      </div>
+    </div>
+  </section>
+-->
+  <div class="sep"></div>
+
+  <section id="data">
+    <h2>Data & Sources</h2>
+    <div class="grid grid-2">
+      <div>
+        <h3>California Public Utilities Commission (CPUC)</h3>
+        <ul>
+          <li><strong>Fixed Adoption by County</strong> — households offered, connections, adoption rate.</li>
+          <li><strong>Served Status by County (25/3)</strong> — served & unserved households.</li>
+        </ul>
+        <p>
+          <a href="https://www.cpuc.ca.gov/industries-and-topics/internet-and-phone/broadband-mapping-program/cpuc-annual-collected-broadband-data" target="_blank" rel="noopener">
+            CPUC — Annual Collected Broadband Data
+          </a>
+        </p>
+
+        <!-- Optional: add your CPUC table screenshots 
+        <figure>
+          <img src="../assets/img/data/cpuc_adoption_table.png" alt="CPUC Fixed Adoption by County table (screenshot)">
+          <figcaption>CPUC Fixed Adoption by County (screenshot). Replace path/filename if needed.</figcaption>
+        </figure>
+        -->
+      </div>
+
+      <div>
+        <h3>U.S. Census — American Community Survey (ACS)</h3>
+        <ul>
+          <li><strong>S1701: Poverty Status</strong> (5-year, 2023) — % individuals below poverty line.</li>
+          <li><strong>DP05: Demographic & Housing</strong> (5-year, 2023) — race/age (used for exploratory checks).</li>
+        </ul>
+        <p>
+          <a href="https://data.census.gov/table?q=S1701%3A%20POVERTY%20STATUS&g=040XX00US06$0500000" target="_blank" rel="noopener">
+            data.census.gov — S1701 (CA counties)
+          </a><br/>
+          <a href="https://data.census.gov/table?q=DP05&g=040XX00US06$0500000" target="_blank" rel="noopener">
+            data.census.gov — DP05 (CA counties)
+          </a>
+        </p>
+
+        <!-- Optional: add your ACS table screenshots 
+        <figure>
+          <img src="../assets/img/data/acs_s1701_table.png" alt="ACS S1701 Poverty table (screenshot)">
+          <figcaption>ACS S1701 (Poverty Status) for CA counties (screenshot).</figcaption>
+        </figure>
+        -->
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:10px">
+      Joins: I worked at the county level; county names for Tableau readability and GEOIDs retained for future QGIS work.
+    </p>
+  </section>
+
+</main>
+</body>
+</html>
