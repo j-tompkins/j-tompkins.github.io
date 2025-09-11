@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Inventory Health — Wide World Importers (Power BI)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--ink:#0f172a;--sub:#334155;--teal:#0ea5a4;--line:#e5e7eb}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);margin:0}
+    header,main{max-width:980px;margin:0 auto;padding:24px}
+    h1{margin:.5rem 0 .25rem} h2{color:var(--sub);margin-top:1.8rem}
+    figure{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    figure img{display:block;width:100%} figcaption{padding:8px 10px;font-size:.9rem;color:#475569;background:#fafafa;border-top:1px solid var(--line)}
+    .lead{color:#1f2937}
+    .sep{height:1px;background:var(--line);margin:22px 0}
+    .note{font-size:.92rem;color:#475569}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Inventory Health — Wide World Importers (Power BI)</h1>
+  <p class="lead">A practical, single‑page monitor with cards, clustered columns, line trend, pie/treemap, and targeted exception KPIs.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Overview & Driving Question</h2>
+    <p>
+      <em>Question:</em> Where are stock risks and slow‑moving items concentrated, and how do we improve turns without harming service?
+      The final design centers on a <strong>clustered column chart</strong> for location/category variance, a <strong>line trend</strong>
+      for context, and targeted KPI cards. A <strong>treemap</strong> and small <strong>pie</strong> provide fast composition cues.
+    </p>
+    <p>
+      I intentionally used a compact layout with clear color rules for risk, and structured the page for rapid triage: KPIs → clusters → trend → composition.
+      Tooltips explain definitions; labels are shown only where they aid action. Filters are simple and consistent to keep the rhythm of review smooth.
+    </p>
+  </section>
+
+  <div class="sep"></div>
+
+  <section>
+    <h2>Method & Build Notes</h2>
+    <ul>
+      <li>Model
+        <ul>
+          <li>Inventory movement fact with Product, Date, Location dimensions.</li>
+          <li>Cleaned date table used consistently across visuals.</li>
+        </ul>
+      </li>
+      <li>Measures
+        <ul>
+          <li>Total Sales & Total Quantity</li>
+          <li>Inventory Turns and Days of Supply</li>
+          <li>Stockout Rate and Low‑Velocity Flag</li>
+        </ul>
+      </li>
+      <li>Visuals & UX
+        <ul>
+          <li>Clustered columns: variance by location/category with conditional data labels.</li>
+          <li>Line chart: trend over time for context and seasonality.</li>
+          <li>Treemap + pie: quick composition and share.</li>
+          <li>Cards: spotlight at‑risk SKUs and key totals.</li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Screenshots (uncomment and replace paths)
+    <figure>
+      <img src="../../assets/img/powerbi/wwi_inventory_overview.png" alt="WWI Inventory — overview" />
+      <figcaption>KPIs, clustered columns, trend, and composition (treemap/pie).</figcaption>
+    </figure>
+    -->
+    <!-- Downloads (uncomment when ready)
+    <p class="note">
+      <a href="../../assets/pbix/wwi-advanced.pbix" download>Download PBIX</a>
+    </p>
+    -->
+  </section>
+
+  <div class="sep"></div>
+
+  <section>
+    <h2>Findings & Reflection</h2>
+    <p>
+      Risk concentrated in a handful of categories and locations; turns improved by focusing on stale SKUs and right‑sizing
+      thresholds. The clustered columns made outliers visible, while the trend line confirmed whether changes were structural
+      or temporary.
+    </p>
+    <p class="note">
+      Lessons: fewer visuals, clearer definitions, and just enough interactivity to support daily review. The layout is designed
+      for quick scanning and decisive action.
+    </p>
+  </section>
+</main>
+</body>
+</html>
