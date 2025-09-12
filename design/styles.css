@@ -99,3 +99,18 @@ p {
   border-radius:8px;
   box-shadow:0 1px 3px rgba(0,0,0,.3);
 }
+
+ul, ol {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;   /* indent so bullets are visible */
+}
+ul { list-style: disc; }
+ol { list-style: decimal; }
+
+/* If a specific container is stripping bullets, target it too */
+.content ul, .content ol,
+.main ul, .main ol,
+.container ul, .container ol {
+  list-style: revert;      /* or disc/decimal if you prefer */
+  padding-left: 1.25rem;
+}

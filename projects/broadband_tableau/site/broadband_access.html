@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Broadband Access & the Digital Divide (Tableau) — California</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/design/project_pages.css">
+  <link rel="stylesheet" href="/design/styles.css"/>
 </head>
 <body>
 
@@ -37,9 +37,13 @@
         allowfullscreen></iframe>
     </div>
     <figure>
-      <img src="../../assets/img/tableau/broadband_dashboard.png" alt="Broadband Access — Tableau Dashboard Screenshot">
+      <img src="/assets/img/tableau/broadband_dashboard.png" alt="Broadband Access — Tableau Dashboard Screenshot">
       <figcaption>Static preview of the Tableau dashboard (blue–teal palette).</figcaption>
     </figure>
+
+    <p>
+      <a class="btn" href="/assets/twb/broadband_access.twb" download>Download TWB File</a>
+    </p>
   </section>
 
   <div class="sep"></div>
@@ -71,8 +75,8 @@
     <div>
       <h3>California Public Utilities Commission (CPUC)</h3>
       <ul>
-        <li><a href="../../downloads/Fixed_Adoption_by_County.pdf" target="_blank" rel="noopener">CPUC Fixed Adoption by County (PDF)</a> — households offered, connections, adoption rate.</li>
-        <li><a href="../../downloads/Served_Status_by_County.pdf" target="_blank" rel="noopener">CPUC Served Status by County (25/3) (PDF)</a> — served vs unserved households.</li>
+        <li><a href="/assets/twb/CA 2023 - D23_01feb2025 - Fixed Adoption by County - FCC - Terrestrial.pdf" target="_blank" rel="noopener">CPUC Fixed Adoption by County (PDF)</a> — households offered, connections, adoption rate.</li>
+        <li><a href="/assets/twb/CA 2023 - D23_14may2024 - Household Deployment by County - FCC - Terrestrial.pdf" target="_blank" rel="noopener">CPUC Served Status by County (25/3) (PDF)</a> — served vs unserved households.</li>
       </ul>
     </div>
 
@@ -133,13 +137,13 @@
     <ul>
       <li>Statewide access is high; adoption lags — the divide is behavioral/economic, not purely infrastructural.</li>
         <ul>
-          <p>The behavioral/social explanation is supported by the fairly large gaps that exist in urban counties like 
+          <li>The behavioral/social explanation is supported by the fairly large gaps that exist in urban counties like 
             Los Angeles and San Francisco Bay Area counties.  However, when looking at adoption rate, the counties with 
             the lowest percentage of the population with broadband are all smaller, more rural regions 
             (<a href="https://www.ers.usda.gov/data-products/rural-urban-commuting-area-codes" target="_blank" rel="noopener">2020 Rural-Urban Commuting Area (RUCA) Codes</a>).
             There is also a small number of households for which broadband is not offered (16.2 million households, but 15.8 million offered broadband).
             A further investigation into the characteristics of these households would also be of use.
-          </p>
+          </li>
         </ul>
       <li>High-gap, low-poverty outliers suggest non-economic barriers (awareness, devices, digital literacy, affordability).</li>
       <li>High-poverty, high-gap clusters align with equity priorities for targeted outreach and subsidy programs.</li>
@@ -159,5 +163,20 @@
   </section>
 
 </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        GitHub: <a href="www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
