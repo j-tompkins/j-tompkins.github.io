@@ -46,3 +46,8 @@
   .note{font-size:.9rem;color:var(--sub);margin-top:8px}
   a{color:var(--accent)}
 
+.footer {
+  text-align:center;
+  color:var(--muted);
+  padding:2rem 1.25rem;
+}
