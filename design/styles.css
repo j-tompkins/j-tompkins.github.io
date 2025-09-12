@@ -120,3 +120,19 @@ ol { list-style: decimal; }
   border-top: 1px solid #d1d5db; /* light gray line */
   margin: 2rem 0;                /* spacing above and below */
 }
+
+/* Global link styling */
+a {
+  color: var(--accent);
+  text-decoration: none;   /* remove underline */
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline; /* or change color if you prefer */
+}
+
+/* Ensure footer links also use the accent color */
+footer a {
+  color: var(--accent);
+}
