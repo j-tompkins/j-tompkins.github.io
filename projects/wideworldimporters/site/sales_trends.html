@@ -9,7 +9,7 @@
 <body>
 <header>
   <h1>Retail Sales Trends (Power BI)</h1>
-  <p class="lead">A compact, single‑page report with cards, an area trend, a clustered bar, and slicers for fast exploratory analysis.</p>
+  <p class="lead">A compact, single‑page report with KPI cards, an area chart, a clustered bar chart, and slicers for interactivity and filtering.</p>
 </header>
 
  <figure>
@@ -23,14 +23,14 @@
 
 <main>
   <section>
-    <h2>Overview & Driving Question</h2>
+    <h2><u>Overview & Driving Question</u></h2>
     <p>
       <em>Question:</em> How are sales trending over time and which segments drive change? The finished report centers on a clean
-      <strong>time‑series area chart</strong> for overall trend, a <strong>clustered bar</strong> for segment comparisons, and
+      <strong>time‑series area chart</strong> to show overall trends, a <strong>clustered bar</strong> for segment comparisons, and
       a row of <strong>cards</strong> that surface key KPIs at a glance. Three slicers (date, category, region) enable quick pivots.
     </p>
     <p>
-      I prioritized readability and speed: the page is intentionally dense but scannable—cards first, then trend, then breakdowns.
+      I prioritized readability for quick analysis. The page is intentionally dense but scannable—cards first, then trend, then breakdowns.
       This reflects how stakeholders review performance: glance at KPIs, scan the trend line, and then look for where changes
       originate (the clustered bar). Titles and tooltips are written in plain language and the color choices remain accessible.
     </p>
@@ -39,7 +39,7 @@
   <div class="sep"></div>
 
   <section>
-    <h2>Method & Build Notes</h2>
+    <h2><u>Method & Build Notes</u></h2>
     <ul>
       <li>Model
         <ul>
@@ -63,23 +63,13 @@
         </ul>
       </li>
     </ul>
-    <!-- Screenshots (uncomment and replace paths)
-    <figure>
-      <img src="../../assets/img/powerbi/sales_trends.png" alt="Sales Trends — overview" />
-      <figcaption>Cards, area trend, clustered bar, and slicers on one page.</figcaption>
-    </figure>
-    -->
-    <!-- Downloads (uncomment when ready)
-    <p class="note">
-      <a href="../../assets/pbix/sales_trends.pbix" download>Download PBIX</a>
-    </p>
-    -->
+   
   </section>
 
   <div class="sep"></div>
 
   <section>
-    <h2>Findings & Reflection</h2>
+    <h2><u>Findings & Reflection</u></h2>
     <p>
       The area trend made seasonal patterns obvious; the clustered bar showed that a small set of categories explained most
       variance during peaks. Using cards to anchor context sped up read time, while slicers enabled quick what‑ifs without

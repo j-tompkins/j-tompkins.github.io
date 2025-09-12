@@ -114,3 +114,9 @@ ol { list-style: decimal; }
   list-style: revert;      /* or disc/decimal if you prefer */
   padding-left: 1.25rem;
 }
+
+.divider {
+  border: none;
+  border-top: 1px solid #d1d5db; /* light gray line */
+  margin: 2rem 0;                /* spacing above and below */
+}

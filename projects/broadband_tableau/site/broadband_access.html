@@ -9,10 +9,9 @@
 <body>
 
 <header>
-  <div class="tag">Tableau • Broadband • California • Equity</div>
   <h1>Broadband Access & the Digital Divide (California)</h1>
   <p class="lead">
-    A Tableau Public dashboard exploring how <strong>poverty</strong> aligns with the <strong>broadband adoption gap</strong> and
+    A Tableau  dashboard exploring how <strong>poverty</strong> aligns with the <strong>broadband adoption gap</strong> and
     <strong>unserved households</strong> across California counties.
   </p>
 </header>
@@ -22,13 +21,14 @@
   <section id="overview">
     <h2>Overview & Driving Question</h2>
     <p><em>Driving question:</em> <strong>How does broadband adoption vary across California counties, and what does the gap between service availability and actual adoption tell us when combined with poverty and demographic characteristics?</strong></p>
-    <p>California’s statewide unserved rate is relatively low; the <strong>adoption gap</strong> is where the digital divide appears. I focused on four visuals: a filled map of poverty %, a stacked bar (offered vs. connections), a bubble chart relating poverty to adoption gap (size = connections), and a bar of unserved share. Together, they surface outliers and priority counties.</p>
+    <p>California’s statewide unserved rate is relatively low; the adoption measures are where the digital divide appears. I focused on four visuals: a filled map of poverty %, a stacked bar (offered vs. connections), a bubble chart relating poverty to adoption gap (size = connections), and a bar of unserved share. Together, they surface outliers and priority counties.</p>
   </section>
 
-  <div class="sep"></div>
+<hr class="divider">
 
   <section id="dashboard">
-    <h2>Interactive Dashboard (Tableau Public)</h2>
+    <h2><u>Interactive Dashboard</u></h2>
+    <!--
     <div class="tableau-outer">
       <iframe
         src=""
@@ -36,6 +36,7 @@
         loading="lazy"
         allowfullscreen></iframe>
     </div>
+    -->
     <figure>
       <img src="/assets/img/tableau/broadband_dashboard.png" alt="Broadband Access — Tableau Dashboard Screenshot">
       <figcaption>Static preview of the Tableau dashboard (blue–teal palette).</figcaption>
@@ -46,37 +47,24 @@
     </p>
   </section>
 
-  <div class="sep"></div>
 
   <section id="kpis">
-    <h2>Headline KPIs</h2>
-    <div class="kpis">
-      <div class="kpi">
-        <h4>Households Offered vs. Connections</h4>
-        <div class="note">Supply vs. use. Where service exists and the number of households that remain offline
-          or with lower quality internet service.
-        </div>
-      </div>
-      <div class="kpi">
-        <h4>Adoption Gap (Households)</h4>
-        <div class="note">Total households not adopting despite being offered service.</div>
-      </div>
-      <div class="kpi">
-        <h4>Broadband Adoption Rate</h4>
-        <div class="note">Connections ÷ Households Offered (statewide).</div>
-      </div>
-    </div>
+    <h2><u>Headline KPIs</u></h2>
+    <ul>
+      <li><strong>Households Offered vs. Connections</strong> – Supply vs. use. Where service exists and the number of households that remain offline or with lower quality internet service.</li>
+      <li><strong>Adoption Gap (Households)</strong> – Total households not adopting despite being offered service.</li>
+      <li><strong>Broadband Adoption Rate</strong> – Connections ÷ Households Offered (statewide).</li>
+    </ul>
   </section>
 
-  <div class="sep"></div>
 
   <section id="data">
-    <h2>Data & Sources</h2>
+    <h2><u>Data & Sources</u></h2>
     <div>
       <h3>California Public Utilities Commission (CPUC)</h3>
       <ul>
         <li><a href="/assets/twb/CA 2023 - D23_01feb2025 - Fixed Adoption by County - FCC - Terrestrial.pdf" target="_blank" rel="noopener">CPUC Fixed Adoption by County (PDF)</a> — households offered, connections, adoption rate.</li>
-        <li><a href="/assets/twb/CA 2023 - D23_14may2024 - Household Deployment by County - FCC - Terrestrial.pdf" target="_blank" rel="noopener">CPUC Served Status by County (25/3) (PDF)</a> — served vs unserved households.</li>
+        <li><a href="/assets/twb/CA 2023 - D23_14may2024 - Household Deployment by County - FCC - Terrestrial.pdf" target="_blank" rel="noopener">CPUC Fixed Consumer Broadband Deployment by County (25/3) (PDF)</a> — served vs unserved households.</li>
       </ul>
     </div>
 
@@ -88,52 +76,53 @@
       </ul>
     </div>
 
-    <p class="note">Joins: county-level; County used for readability in Tableau, GEOIDs retained for future QGIS work.</p>
+    <li> Joins: county-level; County used for readability in Tableau, GEOIDs retained for future QGIS work.</li>
   </section>
 
-  <div class="sep"></div>
+   <hr class="divider">
 
   <section id="method">
-    <h2>Method & Build Notes</h2>
+    <h2><u>Method & Build Notes</u></h2>
     <ul>
       <li>Extracted CPUC PDFs (Adoption & Served Status) and converted to a .xlsx file using Excel's "Get Data" tab.</li>
       <li>Pulled CSV files for the ACS S1701 (for poverty data) and DP05 (for demographics data) datasets from the portal at data.census.gov.</li>
+      <li> Joins: county-level; County used for readability in Tableau, GEOIDs retained in dataset for future QGIS work.</li>
       <li>Consolidated the CPUC and census data into one file, <code>county_master.csv</code>, with the following columns <strong>for eachcounty</strong>:</li>
         <ul>
-          <li><strong>All_HH:</strong> total number of households</li> 
-          <li><strong>Offered:</strong> households with access to broadband</li>
-          <li><strong>Connections:</strong> those who actually have broadband</li>
-          <li><strong>Adoption_Rate:</strong> ratio of Offered / Connections</li> 
-          <li><strong>Served/Unserved 25/3:</strong> households with (served) and without (unserved) download and download speeds of 25Mbps and 3Mbps up</li>
-          <li><strong>Poverty_Pct:</strong> the percentage of those living below the poverty</li>
+          <li><strong>All_HH</strong> - Total number of households</li> 
+          <li><strong>Offered</strong> - Households with access to broadband</li>
+          <li><strong>Connections</strong> - Those who actually have broadband</li>
+          <li><strong>Adoption_Rate</strong> - Ratio of Offered / Connections</li> 
+          <li><strong>Served/Unserved 25/3</strong> - households with (served) and without (unserved) download and download speeds of 25Mbps and 3Mbps up</li>
+          <li><strong>Poverty_Pct</strong> - The percentage of those living below the poverty</li>
         </ul>
       <li>Created calculated measures:</li>
         <ul>
-         <li>Adoption_Gap = Offered − Connections</li>, 
-         <li>Unserved_Share = Unserved / All_HH</li>.
+         <li>Adoption_Gap = Offered − Connections</li> 
+         <li>Unserved_Share = Unserved / All_HH</li>
         </ul>
       <li>Designed four visuals (filled map, stacked bar, bubble, bar) + three KPIs in a blue–teal palette.</li>
     </ul>
   </section>
 
-  <div class="sep"></div>
 
-  <h3>Decisions for Visuals</h3>
+
+  <h3><u>Decisions for Visuals</u></h3>
   <p>My goal for the visuals was to begin with a broader view of the data (map, KPIs), and use the other visuals to provide more detailed 
     information about the state of broadband adoption.  In addition I hope to be able to illustrate where the state could focus future efforts
     to address the digital divide in the state.</p>
     <ul>
-      <li><strong>Poverty filled map:</strong> context for economic hardship.</li>
-      <li><strong>Stacked bar (Offered vs Connections):</strong> intuitive view of the adoption gap.</li>
-      <li><strong>Bubble (Poverty × Adoption Gap, size=Connections):</strong> surfaces outliers.</li>
-      <li><strong>Bar (Unserved Share):</strong> ranks coverage gaps separately from adoption.</li>
-      <li><strong>KPIs:</strong> Offered vs Connections, Adoption Gap (hh), Adoption Rate.</li>
+      <li><strong>Poverty filled map</strong> - Adds context for economic hardship.</li>
+      <li><strong>Stacked bar (Offered vs Connections)</strong> - Provides intuitive view of the adoption gap.</li>
+      <li><strong>Bubble (Poverty × Adoption Gap, size=Connections)</strong> - In order to spot outliers identify trends based on county characteristics.</li>
+      <li><strong>Bar (Unserved Share):</strong> - Ranks coverage gaps separately from adoption.</li>
+      <li><strong>KPIs</strong> - Offered vs Connections, Adoption Gap (hh), Adoption Rate.</li>
     </ul>
 
-  <div class="sep"></div>
+ 
 
   <section id="findings">
-    <h2>Findings & Interpretation</h2>
+    <h2><u>Findings & Interpretation</u></h2>
     <ul>
       <li>Statewide access is high; adoption lags — the divide is behavioral/economic, not purely infrastructural.</li>
         <ul>
@@ -151,10 +140,10 @@
     <p class="note">Limitations: adoption reflects connections; “availability” reflects advertised tiers (25/3). DP05 retained for future expansion.</p>
   </section>
 
-  <div class="sep"></div>
+  <hr class="divider">
 
   <section id="next">
-    <h2>Next Steps</h2>
+    <h2><u>Next Steps</u></h2>
     <ul>
       <li>Add a QGIS companion (tract-level hot spots, RUCA rurality, county priority index).</li>
       <li>Parameterize Top-N by gap and demographic overlays.</li>
