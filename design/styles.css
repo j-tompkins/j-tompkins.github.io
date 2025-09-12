@@ -136,3 +136,24 @@ a:focus {
 footer a {
   color: var(--accent);
 }
+
+.choropleth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* two equal columns */
+  gap: 1.5rem;                     /* spacing between images */
+  margin-top: 1rem;
+  align-items: start;
+}
+
+.choropleth-grid img {
+  width: 100%;        /* scale nicely */
+  max-width: 500px;   /* medium size */
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+.choropleth-grid figure {
+  margin: 0;
+  text-align: center;
+}
