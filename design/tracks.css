@@ -51,3 +51,14 @@
   color:var(--muted);
   padding:2rem 1.25rem;
 }
+/* For vertical card stacks (root/track pages) */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;   /* spacing between cards */
+}
+
+.grid .card {
+  width: 85%;   /* make cards stretch across the container */
+  margin: 0 auto;
+}
