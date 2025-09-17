@@ -19,6 +19,7 @@
   </header>
 
   <main>
+    <!--
     <section class="intro">
       <h2>Interpretability Figures</h2>
       <figure>
@@ -30,7 +31,8 @@
         <figcaption>Raw-feature importance: overall importance of columns (coarse view).</figcaption>
       </figure>
     </section>
-
+    -->
+<hr class="divider">
 
   <section>
     <h2><u>Decisions and Takeaways</u></h2>
@@ -41,6 +43,8 @@
       For interpretability in version 1, I use logistic regression coefficients and a coarse raw-feature importance view.
     </p>
   </section>
+
+<hr class="divider">
 
   <main>
     <section class="intro">
@@ -66,49 +70,54 @@
       <p><strong>What:</strong> Rename columns, cast categoricals, keep Year, filter to Sex/Race–Ethnicity/Age, save Parquet.</p>
       <p><strong>Reasoning:</strong> Keep temporal context; avoid dropping useful fields early; Parquet is fast for iteration.</p>
       <figure>
-        <img src="projects/hpi_regression/img/hpi_homeless_share.png" alt="HPI x Homeless share chart" />
+        <img src="../figures/hpi_homeless_share.png" alt="HPI x Homeless share chart" />
         <figcaption>Top-line disparity: share of encounters by HPI quartile and homelessness.</figcaption>
       </figure>
+      <!--
       <div class="code-slot">
         <p><em>Code screenshot placeholder:</em> <code>src/prepare_data.py</code> (cleaning + save to Parquet)</p>
       </div>
-
+      -->
       <h3>2. EDA: Disparities</h3>
       <p><strong>What:</strong> Summarize and visualize HPI x homelessness; diagnosis composition by HPI; per-visit-type comparisons.</p>
       <p><strong>Reasoning:</strong> Proportions make quartiles comparable and highlight disparities independent of absolute counts.</p>
       <figure>
-        <img src="projects/hpi_regression/img/diagnosis_composition_0-25_(Least_Healthy).png" alt="Diagnosis composition within least healthy HPI" />
+        <img src="../figures/diagnosis_composition_0-25_(Least_Healthy).png" alt="Diagnosis composition within least healthy HPI" />
         <figcaption>Diagnosis composition within least-healthy HPI quartile (example).</figcaption>
       </figure>
+      <!--
       <div class="code-slot">
         <p><em>Code screenshot placeholder:</em> <code>src/eda.py</code> (groupby + proportions + plots)</p>
       </div>
-
+      -->
       <h3>3. Build the Baseline Classifier</h3>
       <p><strong>What:</strong> Logistic regression pipeline with dummy coding and <code>class_weight="balanced"</code>.</p>
       <p><strong>Reasoning:</strong> Transparent baseline; avoids data leakage; balanced weights mitigate class imbalance.</p>
+      <!--
       <div class="code-slot">
         <p><em>Code screenshot placeholder:</em> <code>src/train_model.py</code> (pipeline + fit with sample weights)</p>
       </div>
-
+      -->
       <h3>4. Evaluate and Tune Threshold</h3>
       <p><strong>What:</strong> Report default metrics; use precision–recall to choose a threshold. In my run, a threshold ≈ 0.078 achieved recall ≈ 0.96 for the Homeless class.</p>
       <p><strong>Trade-off:</strong> Higher recall increases false positives (lower precision). This is acceptable for a screening/flagging use case.</p>
+      <!--
       <div class="code-slot">
         <p><em>Code screenshot placeholder:</em> precision–recall threshold selection block in <code>src/train_model.py</code>.</p>
       </div>
-
-      <h3>5. Interpretability (v1)</h3>
+      -->
+      <h3>5. Interpretations<!--Intepretability?--> <i>(current phase of project)</i></h3>
       <p><strong>What:</strong> Use logistic regression coefficients and a coarse raw-feature importance chart.</p>
       <p><strong>Reasoning:</strong> Coefficients are robust and avoid scorer label issues. Raw-feature importance answers “does diagnosis matter?” even if not “which diagnosis matters most?”</p>
       <figure>
-        <img src="projects/hpi_regression/img/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
+        <img src="../figures/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
         <figcaption>Coarse importance: which input columns matter overall.</figcaption>
       </figure>
+      <!--
       <div class="code-slot">
         <p><em>Code screenshot placeholder:</em> coefficient plot block in <code>src/train_model.py</code>.</p>
       </div>
-
+      -->
       <h3>6. Errors & Fixes</h3>
       <ul>
         <li><strong>pos_label errors:</strong> importance scorers needed a positive class; string labels caused 'pos_label=1' issues. Solution for v1: rely on coefficients and coarse raw-feature importance.</li>
@@ -124,8 +133,10 @@
       </ul>
     </section>
 
+<hr class="divider">
+
     <section>
-      <h2><u>Figures</u></h2>
+      <h2><u><!--Intepretability?-->Figures</u></h2>
       <!--
       <figure>
         <img src="tracks/hpi_regression/img/lr_coefficients_top_features.png" alt="Logistic regression coefficients" />
@@ -133,7 +144,7 @@
       </figure>
       -->
       <figure>
-        <img src="projects/hpi_regression/img/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
+        <img src="../figures/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
         <figcaption>Raw-feature importance: overall importance of columns (coarse view).</figcaption>
       </figure>
     </section>
