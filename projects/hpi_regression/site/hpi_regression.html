@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HPI Homelessness Classification • Justin Tompkins</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Exploratory analysis of HPI disparities and a logistic regression classifier to flag homeless-associated encounters." />
+  <link rel="stylesheet" href="/design/styles.css"/>
+</head>
+<body>
+  <header>
+    <h1>Healthy Places Index (HPI): Homelessness Classification</h1>
+    <p>A learning project using Python to analyze disparities and build a baseline classifier with dummy coding.</p>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/tracks/python_ml.html">ML Track</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Interpretability Figures</h2>
+      <figure>
+        <img src="projects/hpi_regression/img/lr_coefficients_top_features.png" alt="Logistic regression coefficients" />
+        <figcaption>Top coefficients from logistic regression: specific category levels driving predictions.</figcaption>
+      </figure>
+      <figure>
+        <img src="projects/hpi_regression/img/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
+        <figcaption>Raw-feature importance: overall importance of columns (coarse view).</figcaption>
+      </figure>
+    </section>
+
+
+  <section>
+    <h2><u>Decisions and Takeaways</u></h2>
+    <p>
+      I scoped this project as a clear learning exercise: clean preprocessing, dummy coding of categoricals,
+      a transparent logistic regression baseline, and careful evaluation with class imbalance. I documented errors and fixes,
+      including scorer positive-label issues during importance scoring, sparse→dense matrix needs, and a Matplotlib backend warning on Windows.
+      For interpretability in version 1, I use logistic regression coefficients and a coarse raw-feature importance view.
+    </p>
+  </section>
+
+  <main>
+    <section class="intro">
+      <h2><u>Project Overview</u></h2>
+      <p>
+        This project explores encounter data summarized by Healthy Places Index (HPI) quartiles and predicts whether
+        an encounter is associated with homelessness. It includes exploratory data analysis (EDA) and a logistic regression
+        classifier trained with dummy-coded inputs. I structured the code as a reproducible pipeline in <code>src/</code>,
+        with data artifacts in <code>data/</code> and figures in <code>img/</code>.
+        <!-- <ahttps://data.ca.gov/dataset/mental-and-behavioral-health-diagnoses-in-emergency-department-and-inpatient-discharges-by-heal/resource/4897e254-e7d4-471a-a67d-672068402b56-->
+      </p>
+      <p>
+        Source data: California HPI encounter summary dataset (counts). Because rows are aggregated counts, the model uses
+        <code>num_visits</code> as sample weights to respect group sizes. I kept the Year column for context and focused
+        on demographic categories (Sex, Race/Ethnicity Group, Age Group) plus encounter setting, diagnosis group, and HPI quartiles.
+      </p>
+    </section>
+
+    <section>
+      <h2><u>Step-by-Step (Numbered Guide)</u></h2>
+
+      <h3>1. Prepare Data (dummy coding ready)</h3>
+      <p><strong>What:</strong> Rename columns, cast categoricals, keep Year, filter to Sex/Race–Ethnicity/Age, save Parquet.</p>
+      <p><strong>Reasoning:</strong> Keep temporal context; avoid dropping useful fields early; Parquet is fast for iteration.</p>
+      <figure>
+        <img src="projects/hpi_regression/img/hpi_homeless_share.png" alt="HPI x Homeless share chart" />
+        <figcaption>Top-line disparity: share of encounters by HPI quartile and homelessness.</figcaption>
+      </figure>
+      <div class="code-slot">
+        <p><em>Code screenshot placeholder:</em> <code>src/prepare_data.py</code> (cleaning + save to Parquet)</p>
+      </div>
+
+      <h3>2. EDA: Disparities</h3>
+      <p><strong>What:</strong> Summarize and visualize HPI x homelessness; diagnosis composition by HPI; per-visit-type comparisons.</p>
+      <p><strong>Reasoning:</strong> Proportions make quartiles comparable and highlight disparities independent of absolute counts.</p>
+      <figure>
+        <img src="projects/hpi_regression/img/diagnosis_composition_0-25_(Least_Healthy).png" alt="Diagnosis composition within least healthy HPI" />
+        <figcaption>Diagnosis composition within least-healthy HPI quartile (example).</figcaption>
+      </figure>
+      <div class="code-slot">
+        <p><em>Code screenshot placeholder:</em> <code>src/eda.py</code> (groupby + proportions + plots)</p>
+      </div>
+
+      <h3>3. Build the Baseline Classifier</h3>
+      <p><strong>What:</strong> Logistic regression pipeline with dummy coding and <code>class_weight="balanced"</code>.</p>
+      <p><strong>Reasoning:</strong> Transparent baseline; avoids data leakage; balanced weights mitigate class imbalance.</p>
+      <div class="code-slot">
+        <p><em>Code screenshot placeholder:</em> <code>src/train_model.py</code> (pipeline + fit with sample weights)</p>
+      </div>
+
+      <h3>4. Evaluate and Tune Threshold</h3>
+      <p><strong>What:</strong> Report default metrics; use precision–recall to choose a threshold. In my run, a threshold ≈ 0.078 achieved recall ≈ 0.96 for the Homeless class.</p>
+      <p><strong>Trade-off:</strong> Higher recall increases false positives (lower precision). This is acceptable for a screening/flagging use case.</p>
+      <div class="code-slot">
+        <p><em>Code screenshot placeholder:</em> precision–recall threshold selection block in <code>src/train_model.py</code>.</p>
+      </div>
+
+      <h3>5. Interpretability (v1)</h3>
+      <p><strong>What:</strong> Use logistic regression coefficients and a coarse raw-feature importance chart.</p>
+      <p><strong>Reasoning:</strong> Coefficients are robust and avoid scorer label issues. Raw-feature importance answers “does diagnosis matter?” even if not “which diagnosis matters most?”</p>
+      <figure>
+        <img src="projects/hpi_regression/img/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
+        <figcaption>Coarse importance: which input columns matter overall.</figcaption>
+      </figure>
+      <div class="code-slot">
+        <p><em>Code screenshot placeholder:</em> coefficient plot block in <code>src/train_model.py</code>.</p>
+      </div>
+
+      <h3>6. Errors & Fixes</h3>
+      <ul>
+        <li><strong>pos_label errors:</strong> importance scorers needed a positive class; string labels caused 'pos_label=1' issues. Solution for v1: rely on coefficients and coarse raw-feature importance.</li>
+        <li><strong>Sparse→dense:</strong> dummy coding outputs sparse matrices; some functions require dense arrays.</li>
+        <li><strong>Matplotlib backend on Windows:</strong> set <code>matplotlib.use("Agg")</code> in scripts.</li>
+      </ul>
+
+      <h3>7. Next Steps</h3>
+      <ul>
+        <li>Granular “which diagnosis matters most?” using coefficients on dummy-coded features or SHAP on a tree model.</li>
+        <li>Publish precision–recall curves and confusion matrices (default vs tuned) as additional figures.</li>
+        <li>Consider subgroup performance checks by HPI quartile.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><u>Figures</u></h2>
+      <!--
+      <figure>
+        <img src="tracks/hpi_regression/img/lr_coefficients_top_features.png" alt="Logistic regression coefficients" />
+        <figcaption>Top coefficients from logistic regression: specific category levels driving predictions.</figcaption>
+      </figure>
+      -->
+      <figure>
+        <img src="projects/hpi_regression/img/raw_feature_importance.png" alt="Raw-feature importance bar chart" />
+        <figcaption>Raw-feature importance: overall importance of columns (coarse view).</figcaption>
+      </figure>
+    </section>
+
+
+  </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        GitHub: <a href="www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

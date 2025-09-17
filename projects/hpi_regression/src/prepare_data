@@ -1,0 +1,39 @@
+"""
+Loads raw HPI data, renames columns, casts categorical types,
+filters to key demographic categories, and writes a typed Parquet file.
+"""
+
+import pandas as pd
+from config import data_raw, data_processed
+
+def main():
+    df = pd.read_csv(data_raw)
+
+    # Rename for clarity (keep Year for now)
+    df = df.rename(columns={
+        "Encounter Setting": "visit_type",
+        "Diagnosis Group": "diagnosis",
+        "Residence": "homeless",
+        "Count": "num_visits",
+        "HPI Percentile Ranking": "hpi_rank",
+        "Category": "category",
+        "Category Description": "demographics",
+    })
+
+    # Drop index-like column but KEEP Year
+    df = df.drop(columns=["_id"])
+
+    # Cast common categoricals
+    for var in ["hpi_rank", "visit_type", "category", "demographics", "diagnosis", "homeless"]:
+        df[var] = df[var].astype("category")
+
+    # Focus on demographic categories; skip payer for clarity
+    demographics = {"Sex", "Race/Ethnicity Group", "Age Group"}
+    df = df[df["category"].isin(demographics)].copy()
+
+    # Save typed snapshot for faster reuse
+    df.to_parquet(data_processed, index=False)
+    print(f"Saved cleaned data → {data_processed}  (rows={len(df)})")
+
+if __name__ == "__main__":
+    main()
