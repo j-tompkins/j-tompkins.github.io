@@ -21,7 +21,7 @@
 
   <main class="container project-page">
     <section class="summary-box">
-      <h2>At a Glance</h2>
+      <h2>Overview</h2>
       <div class="summary-grid">
         <p><strong>Research question</strong><br/>Is higher overall diet quality associated with lower systolic blood pressure among U.S. adults?</p>
         <p><strong>Data</strong><br/>NHANES 2017–2018, adults age 20+</p>
@@ -34,7 +34,7 @@
     </section>
 
     <section id="question">
-      <h2>1. The Statistical Question</h2>
+      <h2>1. Question</h2>
       <p>
         One of the things that interests me about statistics is how an intuitive scientific question can be translated into something that can be tested with data. For this project, I wanted to examine whether overall diet quality is associated with systolic blood pressure among U.S. adults.
       </p>
@@ -44,7 +44,7 @@
     </section>
 
     <section id="approach">
-      <h2>2. Why This Statistical Approach?</h2>
+      <h2>2. Reasoning Behind the Approach</h2>
       <p>
         Mean systolic blood pressure is a continuous outcome, so linear regression was a natural starting point. I modeled blood pressure continuously rather than turning it into a binary high-or-normal outcome because the continuous scale preserves more information and allows the results to be interpreted directly in millimeters of mercury.
       </p>
@@ -52,7 +52,6 @@
         Because NHANES uses a complex sampling design, I used survey-weighted regression rather than ordinary linear regression. This matters because NHANES is designed to represent the U.S. population, not just the individuals included in the analytic sample.
       </p>
       <div class="stat-box">
-        <h3>Thinking Like a Statistician</h3>
         <p>
           I modeled HEI continuously but also created quartiles for descriptive summaries. Quartiles make the results easier to visualize, but the regression model preserves the full range of HEI scores. I also scaled HEI by 10 points so the coefficient would describe a more meaningful difference in diet quality.
         </p>
@@ -108,7 +107,6 @@
       </div>
 
       <div class="stat-box">
-        <h3>Thinking Like a Statistician</h3>
         <p>
           The difference between the unweighted and weighted mean SBP reinforced why survey weighting matters. The analytic sample is not interpreted as a simple random sample; the weights help align the estimates with the target population.
         </p>
@@ -195,7 +193,7 @@
     </section>
 
     <section id="learning">
-      <h2>What This Project Taught Me as a Statistician</h2>
+      <h2>Conclusions</h2>
       <ul>
         <li>Survey design should influence both estimation and inference.</li>
         <li>Adjustment for confounding can strengthen, rather than weaken, an observed association.</li>
