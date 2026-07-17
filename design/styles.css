@@ -276,3 +276,11 @@ hr {
   }
   h1 { font-size: 1.6rem; }
 }
+
+/* Keep featured cards uniform across separate sections */
+.current-projects-card,
+.past-card {
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
