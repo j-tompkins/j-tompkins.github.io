@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Healthy Eating Index and Blood Pressure — Justin Tompkins</title>
+  <meta name="description" content="Survey-weighted NHANES analysis of Healthy Eating Index scores and systolic blood pressure among U.S. adults."/>
+  <link rel="stylesheet" href="/design/styles.css"/>
+</head>
+<body>
+  <header class="container header project-header">
+    <p class="eyebrow">Statistical Investigation</p>
+    <h1>Healthy Eating Index and Blood Pressure</h1>
+    <p class="tagline">Survey-weighted linear regression using NHANES 2017–2018</p>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
+    </nav>
+  </header>
+
+  <main class="container project-page">
+    <section class="summary-box">
+      <h2>At a Glance</h2>
+      <div class="summary-grid">
+        <p><strong>Research question</strong><br/>Is higher overall diet quality associated with lower systolic blood pressure among U.S. adults?</p>
+        <p><strong>Data</strong><br/>NHANES 2017–2018, adults age 20+</p>
+        <p><strong>Methods</strong><br/>Survey-weighted linear regression</p>
+        <p><strong>Programming</strong><br/>R, survey, heiscore, nhanesA, tidyverse</p>
+      </div>
+      <p class="key-finding">
+        <strong>Key finding:</strong> After adjustment for age, sex, and race/ethnicity, a 10-point higher Healthy Eating Index score was associated with an estimated 1.35 mmHg lower systolic blood pressure.
+      </p>
+    </section>
+
+    <section id="question">
+      <h2>1. The Statistical Question</h2>
+      <p>
+        One of the things that interests me about statistics is how an intuitive scientific question can be translated into something that can be tested with data. For this project, I wanted to examine whether overall diet quality is associated with systolic blood pressure among U.S. adults.
+      </p>
+      <p>
+        Rather than focusing on a single nutrient, I used the Healthy Eating Index (HEI), which summarizes how closely an individual's diet aligns with federal dietary guidance. This allowed me to ask a broader statistical question: do individuals with higher overall diet quality tend to have lower systolic blood pressure after accounting for important demographic differences?
+      </p>
+    </section>
+
+    <section id="approach">
+      <h2>2. Why This Statistical Approach?</h2>
+      <p>
+        Mean systolic blood pressure is a continuous outcome, so linear regression was a natural starting point. I modeled blood pressure continuously rather than turning it into a binary high-or-normal outcome because the continuous scale preserves more information and allows the results to be interpreted directly in millimeters of mercury.
+      </p>
+      <p>
+        Because NHANES uses a complex sampling design, I used survey-weighted regression rather than ordinary linear regression. This matters because NHANES is designed to represent the U.S. population, not just the individuals included in the analytic sample.
+      </p>
+      <div class="stat-box">
+        <h3>Thinking Like a Statistician</h3>
+        <p>
+          I modeled HEI continuously but also created quartiles for descriptive summaries. Quartiles make the results easier to visualize, but the regression model preserves the full range of HEI scores. I also scaled HEI by 10 points so the coefficient would describe a more meaningful difference in diet quality.
+        </p>
+      </div>
+    </section>
+
+    <section id="data-prep">
+      <h2>3. Preparing the Data</h2>
+      <p>
+        The analysis used NHANES 2017–2018 data. I merged demographic, blood pressure, and dietary score data by respondent ID, restricted the sample to adults age 20 and older, and calculated mean systolic blood pressure by averaging the available examination readings.
+      </p>
+      <p>
+        Participants with missing values for the outcome, exposure, survey design variables, or adjustment variables were excluded from the primary analysis. The final complete-case analytic sample included <strong>3,522 adults</strong>.
+      </p>
+      <div class="table-wrap">
+        <h3>Table 1. Analytic Sample Summary</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Measure</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Analytic sample size</td><td>3,522</td></tr>
+            <tr><td>Mean age, unweighted</td><td>51.9 years</td></tr>
+            <tr><td>Mean SBP, unweighted</td><td>127.5 mmHg</td></tr>
+            <tr><td>Mean HEI, unweighted</td><td>52.3</td></tr>
+            <tr><td>HEI range</td><td>15.2 to 93.9</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="exploration">
+      <h2>4. Exploring the Data</h2>
+      <p>
+        Before fitting regression models, I examined the distributions of HEI and mean systolic blood pressure. This step was both descriptive and diagnostic: it helped verify that the data looked plausible before moving into model-based inference.
+      </p>
+      <p>
+        The average HEI score was approximately 52, indicating substantial room for variation in overall diet quality. The mean systolic blood pressure in the analytic sample was approximately 128 mmHg, while the survey-weighted mean was closer to 124 mmHg.
+      </p>
+
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/img/nhanes_hei_sbp/hei_distribution.png" alt="Histogram showing the distribution of Healthy Eating Index scores">
+          <figcaption>Figure 1. Distribution of Healthy Eating Index scores.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/img/nhanes_hei_sbp/sbp_distribution.png" alt="Histogram showing the distribution of mean systolic blood pressure">
+          <figcaption>Figure 2. Distribution of mean systolic blood pressure.</figcaption>
+        </figure>
+      </div>
+
+      <div class="stat-box">
+        <h3>Thinking Like a Statistician</h3>
+        <p>
+          The difference between the unweighted and weighted mean SBP reinforced why survey weighting matters. The analytic sample is not interpreted as a simple random sample; the weights help align the estimates with the target population.
+        </p>
+      </div>
+    </section>
+
+    <section id="model">
+      <h2>5. Building the Model</h2>
+      <p>
+        I fit two survey-weighted regression models. The first model estimated the unadjusted association between HEI and systolic blood pressure. The second model adjusted for age, sex, and race/ethnicity, which are important demographic predictors of blood pressure and may also be related to diet quality.
+      </p>
+      <p>
+        This two-model approach made it possible to examine how adjustment changed the estimated relationship between HEI and blood pressure.
+      </p>
+    </section>
+
+    <section id="results">
+      <h2>6. Interpreting the Results</h2>
+      <p>
+        In the unadjusted model, a 10-point higher HEI score was associated with an estimated 0.5 mmHg lower systolic blood pressure, but the confidence interval included zero. After adjusting for age, sex, and race/ethnicity, the estimated association became stronger: a 10-point higher HEI score was associated with an estimated <strong>1.35 mmHg lower systolic blood pressure</strong> (95% CI: 0.83 to 1.87 mmHg lower).
+      </p>
+      <p>
+        This change between the crude and adjusted models was one of the most interesting parts of the analysis. Adjustment did not weaken the association; it strengthened it. This pattern is consistent with negative confounding. Older adults tend to have higher blood pressure, but they may also report healthier diets. Because age is related to both the exposure and the outcome, failing to adjust for it can mask part of the association between diet quality and blood pressure.
+      </p>
+
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/img/nhanes_hei_sbp/model_coefficients.png" alt="Coefficient plot from the adjusted survey-weighted regression model">
+          <figcaption>Figure 3. Adjusted survey-weighted regression estimates.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/img/nhanes_hei_sbp/predicted_sbp_by_hei.png" alt="Predicted systolic blood pressure across Healthy Eating Index scores">
+          <figcaption>Figure 4. Adjusted predicted systolic blood pressure across HEI scores.</figcaption>
+        </figure>
+      </div>
+
+      <div class="table-wrap">
+        <h3>Table 2. Adjusted Survey-Weighted Regression Results</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Predictor</th>
+              <th>Estimate</th>
+              <th>95% CI</th>
+              <th>p-value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>HEI, per 10-point increase</td><td>-1.35</td><td>-1.87, -0.83</td><td>0.0003</td></tr>
+            <tr><td>Age, per year</td><td>0.48</td><td>0.43, 0.53</td><td>&lt;0.001</td></tr>
+            <tr><td>Male vs. Female</td><td>2.63</td><td>0.75, 4.51</td><td>0.012</td></tr>
+            <tr><td>Non-Hispanic Black vs. Mexican American</td><td>5.59</td><td>2.69, 8.49</td><td>0.002</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="wide-figure">
+        <img src="/assets/img/nhanes_hei_sbp/weighted_sbp_by_hei_quartile.png" alt="Survey-weighted mean systolic blood pressure by HEI quartile">
+        <figcaption>Figure 5. Survey-weighted mean systolic blood pressure by HEI quartile.</figcaption>
+      </figure>
+    </section>
+
+    <section id="reasoning">
+      <h2>7. Statistical Reasoning</h2>
+      <p>
+        One goal of this project was not simply to fit a model, but to understand the reasoning behind the modeling decisions. Modeling HEI continuously preserved information, while the quartile summaries made the results easier to inspect visually. Expressing HEI in 10-point increments made the coefficient more interpretable. Using survey-weighted regression acknowledged the design of NHANES and made the analysis more appropriate for population-level inference.
+      </p>
+      <p>
+        The analysis also reinforced the importance of data validation. Much of the work involved checking joins, recoding variables correctly, and making sure that the final analytic sample matched the intended inclusion criteria. Those steps are less visible than the final model output, but they directly affect the validity of the statistical conclusions.
+      </p>
+    </section>
+
+    <section id="limitations">
+      <h2>8. Limitations and Future Work</h2>
+      <p>
+        This analysis is observational and cross-sectional, so the results should not be interpreted as causal effects. Residual confounding is possible, and the linear model assumes that the association between HEI and systolic blood pressure can be reasonably summarized with a straight-line relationship.
+      </p>
+      <p>
+        This first portfolio version focuses on getting a clean and interpretable statistical analysis completed. Planned refinements include using the dietary recall weights associated with HEI scoring, evaluating nonlinearity in the HEI-SBP relationship, adding model diagnostics, and comparing the primary linear specification with sensitivity models.
+      </p>
+      <p>
+        The original motivation for this project was to ask whether the relationship between diet quality and blood pressure changed after the COVID-19 pandemic. That extension will require calculating a diet quality score consistently across NHANES cycles. A future version of the project will explore that question directly using an interaction model and a custom or manually implemented diet quality score.
+      </p>
+    </section>
+
+    <section id="learning">
+      <h2>What This Project Taught Me as a Statistician</h2>
+      <ul>
+        <li>Survey design should influence both estimation and inference.</li>
+        <li>Adjustment for confounding can strengthen, rather than weaken, an observed association.</li>
+        <li>Continuous predictors often preserve more information than categorized versions.</li>
+        <li>Effect estimates are more informative when presented on an interpretable scale.</li>
+        <li>Statistical programming requires careful validation before model interpretation.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

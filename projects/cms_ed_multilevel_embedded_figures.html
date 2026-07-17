@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A multilevel modeling analysis of emergency department throughput using CMS Care Compare data.">
+  <title>Emergency Department Throughput | Justin Tompkins</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="project_pages.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-name" href="index.html">Justin Tompkins</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html#featured-projects">Projects</a>
+        <a href="Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:tompkins.justin13@gmail.com">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="project-hero">
+      <div class="project-shell">
+        <p class="project-eyebrow">Multilevel Modeling · Health Services Research · R</p>
+        <h1>Emergency Department Throughput Across U.S. Hospitals</h1>
+        <p class="project-lede">
+          Hospitals do not operate in isolation. They are shaped by the state systems around them,
+          including regulation, reimbursement, workforce supply, and healthcare infrastructure.
+          I used CMS Care Compare data to examine whether emergency department throughput differs
+          meaningfully across states after accounting for hospital characteristics.
+        </p>
+
+        <div class="project-actions" aria-label="Project links">
+          <a class="button button--primary" href="#project-story">Read the Project Story</a>
+          <a class="button button--secondary" href="reports/cms_ed_multilevel_technical_report.html">Technical Write-up</a>
+          <a class="button button--secondary" href="https://github.com/j-tompkins/cms-ed-multilevel" target="_blank" rel="noopener">View Code</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-section--compact" id="project-story">
+      <div class="project-shell">
+        <div class="project-facts" aria-label="Project at a glance">
+          <article class="fact-card">
+            <span class="fact-card__label">Data</span>
+            <strong>CMS Care Compare</strong>
+          </article>
+          <article class="fact-card">
+            <span class="fact-card__label">Primary Cohort</span>
+            <strong>3,627 hospitals</strong>
+          </article>
+          <article class="fact-card">
+            <span class="fact-card__label">Geography</span>
+            <strong>50 states + DC</strong>
+          </article>
+          <article class="fact-card">
+            <span class="fact-card__label">Core Method</span>
+            <strong>Random-intercept model</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="project-shell project-grid project-grid--two">
+        <div>
+          <p class="section-kicker">The Question</p>
+          <h2>Where does variation in ED throughput come from?</h2>
+        </div>
+        <div>
+          <p>
+            Emergency department throughput is often discussed as a hospital performance issue,
+            but hospitals within the same state share policies, labor markets, reimbursement systems,
+            and regional constraints. That means part of the observed variation may exist above the
+            hospital level.
+          </p>
+          <p>
+            The analysis therefore asked a more specific statistical question: after accounting for
+            hospital type, ownership, and emergency department volume, how much variation remains
+            between states?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-section--tinted">
+      <div class="project-shell">
+        <p class="section-kicker">The Data</p>
+        <h2>The first step was understanding which hospitals were truly comparable.</h2>
+        <p>
+          The CMS files include acute-care hospitals alongside psychiatric, children’s, federal,
+          long-term care, and other specialized facilities. My original plan was to include every
+          hospital and adjust for type in the model. The data audit showed that this would combine
+          facilities with substantially different patient populations and operating purposes.
+        </p>
+        <p>
+          I refined the primary population to acute-care and critical-access hospitals, producing a
+          more interpretable comparison of general hospitals providing emergency services. The broader
+          hospital sample was preserved and analyzed separately as a sensitivity check rather than
+          being discarded.
+        </p>
+
+        <div class="decision-timeline" aria-label="Project decision timeline">
+          <div class="decision-step">
+            <strong>Initial plan</strong>
+            <span>Analyze all hospitals and statistically adjust for hospital type.</span>
+          </div>
+          <div class="decision-step">
+            <strong>Data audit</strong>
+            <span>Found several specialized hospital groups with distinct roles and populations.</span>
+          </div>
+          <div class="decision-step">
+            <strong>Primary cohort</strong>
+            <span>Focused on acute-care and critical-access hospitals for comparability.</span>
+          </div>
+          <div class="decision-step">
+            <strong>Sensitivity check</strong>
+            <span>Refit the model using the broader hospital population.</span>
+          </div>
+        </div>
+
+        <p class="project-note">
+          This change is documented in the project decision log and preserved in the reproducible
+          workflow. The final analysis shows not only what was modeled, but how the research question
+          became more precise after examining the live data.
+        </p>
+
+        <figure class="project-figure project-figure--wide">
+          <img src="assets/cms-ed/01_hospital_type_scope.png" alt="Emergency department throughput across hospital types considered during cohort development">
+          <figcaption>
+            <strong>Hospital types considered during cohort development.</strong> This comparison helped
+            identify which facilities were sufficiently comparable for the primary analysis and which
+            were better retained for sensitivity analysis.
+          </figcaption>
+        </figure>
+
+        <div class="project-actions">
+          <a class="button button--secondary" href="assets/cms-ed/tables/analysis_decision_log.csv">Download Decision Log</a>
+          <a class="button button--secondary" href="assets/cms-ed/tables/sample_flow.csv">Download Sample Flow</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="project-shell">
+        <p class="section-kicker">The Statistical Strategy</p>
+        <h2>The models were built in stages so that each one answered a different question.</h2>
+        <p>
+          I began with ordinary linear regression to establish a familiar baseline. I then fit an
+          empty random-intercept model to separate state-level variation from hospital-level variation.
+          Finally, I added hospital characteristics to determine whether state differences remained
+          after adjustment.
+        </p>
+
+        <div class="explanation-grid">
+          <article class="explanation-card">
+            <span class="step-number">01</span>
+            <h3>Describe the outcome</h3>
+            <p>Inspect throughput distributions, hospital groups, ED volume, and unadjusted state means.</p>
+          </article>
+          <article class="explanation-card">
+            <span class="step-number">02</span>
+            <h3>Establish a baseline</h3>
+            <p>Fit ordinary regression using hospital type, ownership, and ED volume.</p>
+          </article>
+          <article class="explanation-card">
+            <span class="step-number">03</span>
+            <h3>Partition the variance</h3>
+            <p>Use an empty multilevel model to estimate state variance and the ICC.</p>
+          </article>
+          <article class="explanation-card">
+            <span class="step-number">04</span>
+            <h3>Adjust and test robustness</h3>
+            <p>Add hospital predictors, then compare rating-adjusted and broader-cohort models.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-section--tinted">
+      <div class="project-shell project-grid project-grid--two">
+        <div>
+          <p class="section-kicker">Why the Hierarchy Matters</p>
+          <h2>Hospitals in the same state share context.</h2>
+        </div>
+        <div>
+          <p>
+            Ordinary regression treats every hospital as independent. That assumption is difficult to
+            justify when hospitals within a state share the same policy environment and regional health
+            system. A multilevel model accounts for this clustering by allowing each state to have its
+            own baseline while estimating the overall hospital-level relationships.
+          </p>
+          <p>
+            The intraclass correlation coefficient summarizes how much of the total variation is
+            attributable to differences between states. Partial pooling then tempers unstable state
+            estimates, especially when a state has relatively few reporting hospitals.
+          </p>
+          <figure class="project-figure">
+            <img src="assets/cms-ed/03_observed_state_means.png" alt="Observed mean emergency department throughput by state">
+            <figcaption>
+              <strong>Observed state means.</strong> The raw state averages show the variation that
+              motivated the hierarchical model, but they do not account for hospital composition or
+              differences in the amount of information available within each state.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="project-shell">
+        <p class="section-kicker">Three Figures, Three Questions</p>
+        <h2>The main page focuses on the evidence needed to understand the model.</h2>
+
+        <div class="figure-grid">
+          <figure class="project-figure">
+            <img src="assets/cms-ed/02_throughput_distribution.png" alt="Distribution of emergency department throughput in the primary hospital cohort">
+            <figcaption>
+              <strong>What does the outcome look like?</strong> The distribution provides an initial
+              check for skewness, unusual values, and whether a linear model is a reasonable starting point.
+
+            </figcaption>
+          </figure>
+
+          <figure class="project-figure">
+            <img src="assets/cms-ed/10_state_random_effects.png" alt="Adjusted state random effects from the multilevel model">
+            <figcaption>
+              <strong>Which states differ after adjustment?</strong> The caterpillar plot shows
+              partially pooled state deviations and their uncertainty after accounting for hospital characteristics.
+
+            </figcaption>
+          </figure>
+
+          <figure class="project-figure project-figure--wide">
+            <img src="assets/cms-ed/06_partial_pooling.png" alt="Comparison of observed and partially pooled state emergency department throughput estimates">
+            <figcaption>
+              <strong>What does multilevel modeling change?</strong> Observed state means are compared
+              with model-based estimates. States with less information are pulled more strongly toward
+              the overall mean, reducing overinterpretation of unstable differences.
+
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-section--tinted">
+      <div class="project-shell">
+        <p class="section-kicker">Key Findings</p>
+        <h2>The final interpretation will center on three results.</h2>
+        <p>
+          Rather than listing every coefficient, the portfolio summary will emphasize the statistical
+          conclusions that answer the original question. Exact values can be added after the model
+          output is interpreted and verified.
+        </p>
+
+        <div class="question-cards">
+          <article class="question-card">
+            <h3>Was clustering meaningful?</h3>
+            <p>
+              The ICC shows how much throughput variation occurred between states before hospital
+              characteristics were added.
+            </p>
+            <p class="result-placeholder"><strong>Final result:</strong> Add the ICC and one-sentence interpretation.</p>
+          </article>
+          <article class="question-card">
+            <h3>What explained hospital differences?</h3>
+            <p>
+              Adjusted estimates compare ED volume, hospital type, and ownership while holding the
+              other characteristics constant.
+            </p>
+            <p class="result-placeholder"><strong>Final result:</strong> Add the most important adjusted associations.</p>
+          </article>
+          <article class="question-card">
+            <h3>Did the conclusions hold?</h3>
+            <p>
+              Sensitivity analyses test whether the results changed after adding the overall rating or
+              broadening the hospital population.
+            </p>
+            <p class="result-placeholder"><strong>Final result:</strong> Add the robustness conclusion.</p>
+          </article>
+        </div>
+
+        <figure class="project-figure project-figure--wide">
+          <img src="assets/cms-ed/07_adjusted_coefficients.png" alt="Adjusted fixed-effect estimates from the primary multilevel model">
+          <figcaption>
+            <strong>Adjusted hospital-level associations.</strong> The coefficient plot summarizes the
+            estimated differences associated with ED volume, hospital type, and ownership while the
+            model accounts for hospitals being grouped within states.
+          </figcaption>
+        </figure>
+
+        <div class="project-actions">
+          <a class="button button--secondary" href="assets/cms-ed/tables/variance_components.csv">Variance Components</a>
+          <a class="button button--secondary" href="assets/cms-ed/tables/adjusted_fixed_effects.csv">Fixed Effects Table</a>
+          <a class="button button--secondary" href="assets/cms-ed/tables/cohort_sensitivity_comparison.csv">Sensitivity Comparison</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="project-shell project-grid project-grid--two">
+        <div>
+          <p class="section-kicker">Model Checks</p>
+          <h2>The analysis did not stop after fitting the model.</h2>
+        </div>
+        <div>
+          <p>
+            Residual and Q–Q plots were used to assess whether the linear mixed model adequately
+            represented the data. The workflow also checks collinearity, heteroscedasticity, residual
+            normality, and singularity. These diagnostics help distinguish a model that runs from one
+            that is credible enough to interpret.
+          </p>
+          <div class="figure-grid figure-grid--diagnostics">
+            <figure class="project-figure">
+              <img src="assets/cms-ed/08_residuals_vs_fitted.png" alt="Residuals versus fitted values for the primary multilevel model">
+              <figcaption><strong>Residuals versus fitted values.</strong> This plot checks for nonlinearity and changing residual spread.</figcaption>
+            </figure>
+            <figure class="project-figure">
+              <img src="assets/cms-ed/09_residual_qq_plot.png" alt="Normal quantile plot of residuals from the primary multilevel model">
+              <figcaption><strong>Residual Q–Q plot.</strong> This plot evaluates whether the residual distribution is reasonably compatible with model assumptions.</figcaption>
+            </figure>
+          </div>
+          <div class="project-actions">
+            <a class="button button--secondary" href="assets/cms-ed/tables/model_residuals.csv">Download Residual Data</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-section--tinted">
+      <div class="project-shell">
+        <p class="section-kicker">Explore the Complete Output</p>
+        <h2>The condensed story is supported by a fully reproducible analysis.</h2>
+        <p>
+          The main page highlights only the evidence needed to follow the argument. Readers who want
+          more detail can review the additional figures displayed below, download model tables,
+          read the technical report, or inspect the R scripts.
+        </p>
+
+        <div class="skills-columns">
+          <div>
+            <h3>Additional Descriptive Figures</h3>
+            <figure class="project-figure project-figure--compact">
+              <img src="assets/cms-ed/04_throughput_by_ed_volume.png" alt="Emergency department throughput by CMS emergency department volume category">
+              <figcaption><strong>Throughput by ED volume.</strong> Unadjusted distributions show how throughput changes across CMS volume categories.</figcaption>
+            </figure>
+            <figure class="project-figure project-figure--compact">
+              <img src="assets/cms-ed/05_throughput_by_primary_hospital_type.png" alt="Emergency department throughput for acute-care and critical-access hospitals">
+              <figcaption><strong>Primary hospital types.</strong> Acute-care and critical-access hospitals remain distinct enough to adjust for, but similar enough to support a coherent primary population.</figcaption>
+            </figure>
+          </div>
+          <div>
+            <h3>Tables and Documentation</h3>
+            <ul class="clean-list">
+              <li><a href="assets/cms-ed/tables/analysis_summary.csv">Analysis summary</a></li>
+              <li><a href="assets/cms-ed/tables/hospital_characteristics.csv">Hospital characteristics</a></li>
+              <li><a href="assets/cms-ed/tables/state_summary.csv">State summary</a></li>
+              <li><a href="assets/cms-ed/tables/model_comparison.csv">Model comparison</a></li>
+              <li><a href="assets/cms-ed/tables/partial_pooling_state_estimates.csv">Partial pooling estimates</a></li>
+              <li><a href="assets/cms-ed/tables/state_random_effects.csv">State random effects</a></li>
+              <li><a href="reports/cms_ed_multilevel_technical_report.html">Detailed technical write-up</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="project-shell project-grid project-grid--two">
+        <div>
+          <p class="section-kicker">What This Project Demonstrates</p>
+          <h2>Statistical judgment supported by reproducible programming.</h2>
+        </div>
+        <div class="skills-columns">
+          <div>
+            <h3>Statistical</h3>
+            <ul class="clean-list">
+              <li>Hierarchical data structures</li>
+              <li>Random-intercept models</li>
+              <li>Intraclass correlation</li>
+              <li>Variance decomposition</li>
+              <li>Partial pooling</li>
+              <li>Sensitivity analysis</li>
+              <li>Model diagnostics</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Technical</h3>
+            <ul class="clean-list">
+              <li>R</li>
+              <li>lme4 and broom.mixed</li>
+              <li>tidyverse and ggplot2</li>
+              <li>Reproducible data auditing</li>
+              <li>Quarto</li>
+              <li>Git and GitHub Pages</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section project-cta">
+      <div class="project-shell project-cta__inner">
+        <div>
+          <p class="section-kicker">Technical Detail</p>
+          <h2>Continue into the full methods and results.</h2>
+          <p>
+            The technical write-up documents data preparation, model specification, diagnostics,
+            sensitivity analyses, limitations, and complete statistical interpretation.
+          </p>
+        </div>
+        <div class="project-actions">
+          <a class="button button--primary" href="reports/cms_ed_multilevel_technical_report.html">Open Technical Write-up</a>
+          <a class="button button--secondary" href="https://github.com/j-tompkins/cms-ed-multilevel" target="_blank" rel="noopener">Review Repository</a>
+          <a class="button button--secondary" href="assets/cms-ed/tables/output_manifest.csv">Output Manifest</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Justin Tompkins · Statistical analysis and public health research</p>
+  </footer>
+</body>
+</html>

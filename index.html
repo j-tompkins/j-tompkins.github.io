@@ -1,90 +1,123 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Justin Tompkins • Data Portfolio</title>
-  <meta name="description" content="Portfolio documenting my learning and projects in Power BI, SQL, and Python/GIS."/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Justin Tompkins • Applied Statistics Portfolio</title>
+  <meta name="description" content="Applied statistics portfolio focused on R, SAS, survey data analysis, survival analysis, and public health research."/>
   <link rel="stylesheet" href="/design/styles.css"/>
 </head>
 <body>
   <header class="container header">
     <h1>Justin Tompkins</h1>
-    <p class="tagline">Python • SQL • Dashboards • GIS</p>
+    <p class="tagline">Applied Statistics • R • SAS • Public Health Data</p>
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="assets/J_Tompkins_Resume_25.pdf" target="_blank" rel="noopener">Resume/CV</a>
+      <a href="assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
     </nav>
   </header>
 
   <main class="container">
-    <section class="intro">
-      <h2>Projects</h2>
-      <p> 
-        This portfolio is organized into tracks that reflect my focus areas. Each track documents projects step by step, explaining the choices I made along the way 
-        rather than just showing final outputs. Current projects include dashboards built in Power BI and Tableau, species richness 
-        mapping in Python and QGIS, and exploratory work on public health datasets. In the months ahead I will be adding a 
-        machine learning project using California health data (Healthy Places Index) and a data engineering project that 
-        explores APIs and pipeline design, expanding the site into more advanced reporting and modeling. The goal is to show 
-        both the work I have done and how I think through data problems as I build my skills. 
+    <section class="intro hero-panel">
+      <p class="eyebrow">Statistician-focused portfolio</p>
+      <h2>Statistical modeling applied to public health and human-centered data</h2>
+      <p>
+        This portfolio documents my development as an applied statistician through projects involving statistical modeling,
+        survey data analysis, survival analysis, and public health research. Rather than presenting only final outputs, I focus
+        on the statistical reasoning behind each analysis, including data preparation, model selection, interpretation, and
+        opportunities for methodological improvement.
       </p>
-    
+      <p>
+        My current work emphasizes <strong>R</strong>, <strong>SAS</strong>, statistical computing, and clear communication of model results.
+        Earlier projects using SQL, Python, GIS, Tableau, and Power BI remain available as part of my broader analytical development.
+      </p>
     </section>
 
-    <section id="tracks">
-      <h2>Tracks</h2>
-      <div class="grid">
+    <section id="current-projects">
+      <h2>Current Statistical Projects</h2>
+      <div class="grid featured-grid">
+        <article class="card featured-card">
+          <p class="status">Completed first version</p>
+          <h3>Healthy Eating Index and Blood Pressure</h3>
+          <p class="meta">R • Survey-weighted linear regression • NHANES • Public health</p>
+          <p>
+            A survey-weighted NHANES analysis examining whether overall diet quality, measured by the Healthy Eating Index,
+            is associated with systolic blood pressure among U.S. adults.
+          </p>
+          <div class="mini-summary">
+            <p><strong>Question:</strong> Is higher diet quality associated with lower systolic blood pressure?</p>
+            <p><strong>Key result:</strong> A 10-point higher HEI score was associated with approximately 1.35 mmHg lower systolic blood pressure after adjustment for age, sex, and race/ethnicity.</p>
+          </div>
+          <a class="button" href="projects/nhanes_hei_sbp.html">Read Statistical Investigation</a>
+        </article>
+
+        <article class="card featured-card">
+          <p class="status">In progress</p>
+          <h3>Survival Analysis Project</h3>
+          <p class="meta">R • Time-to-event modeling • Kaplan-Meier • Cox regression</p>
+          <p>
+            A planned biostatistics project focused on survival analysis, model interpretation, and communicating time-to-event results
+            in a clear and statistically grounded way.
+          </p>
+          <div class="mini-summary">
+            <p><strong>Question:</strong> To be finalized.</p>
+            <p><strong>Methods:</strong> Kaplan-Meier curves, log-rank comparisons, and Cox proportional hazards regression.</p>
+          </div>
+          <a class="button muted-button" href="#">Coming Soon</a>
+        </article>
+
+        <article class="card featured-card past-card">
+          <p class="status">Earlier portfolio work</p>
+          <h3>Past Projects</h3>
+          <p class="meta">SQL • Python • GIS • Tableau • Power BI • Machine Learning</p>
+          <p>
+            Earlier projects documenting my development in data preparation, visualization, reporting, geospatial analysis,
+            classification modeling, and applied analytics.
+          </p>
+          <p>
+            These projects remain available, but my current portfolio focus is statistical modeling and biostatistical reasoning.
+          </p>
+          <a class="button" href="#past-projects">Browse Past Projects</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="past-projects">
+      <h2>Past Projects</h2>
+      <p>
+        These projects represent earlier stages of my portfolio development and remain available for review.
+      </p>
+      <div class="grid compact-grid">
         <article class="card">
           <h3>Visualizations and Reporting</h3>
-          <p class="meta">DAX • Modeling • Report design</p>
-          <p>Building dashboards and strengthening visualizations skills.</p>
+          <p class="meta">Power BI • Tableau • DAX • Report design</p>
+          <p>Dashboard and reporting projects focused on communicating trends and operational insights.</p>
           <a class="button" href="tracks/vis_reports.html">View Track</a>
         </article>
 
         <article class="card">
           <h3>GIS</h3>
-          <p class="meta">pandas • geopandas • QGIS</p>
-          <p>Attribute joins, choropleths, and reproducible spatial workflows.</p>
+          <p class="meta">Python • GeoPandas • QGIS</p>
+          <p>Spatial workflows involving joins, choropleths, and geographic interpretation.</p>
           <a class="button" href="tracks/gis.html">View Track</a>
         </article>
 
         <article class="card">
           <h3>Machine Learning</h3>
-          <p class="meta">scikit-learn</p>
-          <p>classification • regression</p>
+          <p class="meta">Python • scikit-learn • Classification</p>
+          <p>Applied classification projects focused on model evaluation and interpretation.</p>
           <a class="button" href="tracks/python_ml.html">View Track</a>
-        </article>
-<!--
-        <article class="card">
-          <h3>Databases</h3>
-          <p class="meta">Queries • Views • Validation</p>
-          <p>Access and SQL projects.</p>
-          <a class="button" href="tracks/databases.html">View Track</a>
-        </article>
-
-        <article class="card">
-          <h3>Python & ETL</h3>
-          <p class="meta">Programming Projects • OOP • ETL
-          </p>
-          <p>Projects designed to strengthen foundational skills in ETL and application development</p>
-          <a class="button" href="tracks/python_data_eng.html">View Track</a>
         </article>
       </div>
     </section>
-
-    <section id="about">
-      <h2>About</h2>
-      <p>I analyze public sector and health data. I document learning steps and decisions, not just final outputs.</p>
-    </section>
--->
-
   </main>
 
   <footer class="container footer">
     <section class="contact">
       <h2>Contact</h2>
       <p>
-        LinkedIn: <a href="www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
         Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
       </p>
     </section>
@@ -92,6 +125,5 @@
   </footer>
 
   <script src="script.js"></script>
-
 </body>
 </html>

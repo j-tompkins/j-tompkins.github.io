@@ -1,0 +1,8 @@
+step,participants_remaining,excluded_at_step
+NHANES III household adult records,20050,NA
+Age 20 years or older,18825,1225
+Eligible for mortality linkage,18806,19
+Measured BMI available,16957,1849
+BMI within prespecified plausible range,16954,3
+Valid examination follow-up and mortality status,16509,445
+Complete primary-model covariates,16503,6
