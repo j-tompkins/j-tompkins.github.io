@@ -308,12 +308,13 @@ hr {
   }
 }
 
-.project-figure {
-    float: right;
-    width: 320px;
-    margin: 0 0 1rem 2rem;
+figure {
+    max-width: 750px;
+    margin: 2rem auto;
 }
 
-.project-figure img {
+figure img {
     width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
