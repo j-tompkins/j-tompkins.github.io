@@ -4,54 +4,109 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Past Projects • Justin Tompkins</title>
+  <meta name="description" content="Earlier applied analytics, modeling, visualization, and GIS projects by Justin Tompkins."/>
   <link rel="stylesheet" href="/design/styles.css"/>
 </head>
 <body>
-<header class="container header">
-  <h1>Past Projects</h1>
-  <p class="tagline">Earlier work in reporting, GIS, and machine learning</p>
-  <nav class="nav">
-    <a href="/index.html">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
-  </nav>
-</header>
-<main class="container">
-  <section class="intro">
-    <h2>Previous Portfolio Tracks</h2>
-    <p>These projects document earlier stages of my analytical development. My current work emphasizes statistical modeling, R, SAS, and public health applications.</p>
-  </section>
-  <section>
-    <div class="grid compact-grid">
-      <article class="card">
-        <h3>Visualizations and Reporting</h3>
-        <p class="meta">Power BI • Tableau • DAX • Report design</p>
-        <p>Dashboard and reporting projects focused on communicating trends and operational insights.</p>
-        <a class="button" href="/tracks/vis_reports.html">View Track</a>
-      </article>
-      <article class="card">
-        <h3>GIS</h3>
-        <p class="meta">Python • GeoPandas • QGIS</p>
-        <p>Spatial workflows involving joins, choropleths, and geographic interpretation.</p>
-        <a class="button" href="/tracks/gis.html">View Track</a>
-      </article>
-      <article class="card">
-        <h3>Machine Learning</h3>
-        <p class="meta">Python • scikit-learn • Classification</p>
-        <p>Applied classification projects focused on model evaluation and interpretation.</p>
-        <a class="button" href="/tracks/python_ml.html">View Track</a>
-      </article>
-    </div>
-  </section>
-</main>
-<footer class="container footer">
-  <section class="contact">
-    <h2>Contact</h2>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
-    Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a></p>
-  </section>
-  <small>© <span id="year"></span> Justin Tompkins</small>
-</footer>
-<script src="/script.js"></script>
+  <header class="container header">
+    <h1>Past Projects</h1>
+    <p class="tagline">Earlier work in modeling, GIS, visualization, and applied analytics</p>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="intro hero-panel">
+      <h2>Earlier portfolio work</h2>
+      <p>
+        These projects document earlier stages of my analytical development across classification modeling,
+        geospatial analysis, reporting, and dashboard design. They remain part of the portfolio while my current
+        work places greater emphasis on statistical modeling and biostatistical reasoning.
+      </p>
+    </section>
+
+    <section id="past-project-list">
+      <h2>Projects</h2>
+      <div class="grid featured-grid">
+
+        <article class="card featured-card">
+          <p class="status">Classification modeling</p>
+          <h3>Healthy Places Index: Homelessness Classification</h3>
+          <p class="meta">Python • Logistic regression • Weighted classification • Model evaluation</p>
+          <p>
+            A classification project using California Healthy Places Index encounter summaries to predict whether
+            an encounter was associated with homelessness. The analysis emphasizes transparent preprocessing,
+            dummy coding, class imbalance, threshold selection, and interpretation of logistic regression results.
+          </p>
+          <a class="button" href="/projects/hpi_regression/site/hpi_regression.html">View</a>
+        </article>
+
+        <article class="card featured-card">
+          <p class="status">Geospatial analysis</p>
+          <h3>California Aquatic Rare Species Richness</h3>
+          <p class="meta">Python • GeoPandas • HUC12 watersheds • Choropleth mapping</p>
+          <p>
+            A reproducible GIS project mapping aquatic rare-species richness across California watersheds. The work
+            compares categorical rank and continuous richness maps while documenting spatial joins, data-format
+            choices, and cartographic tradeoffs.
+          </p>
+          <a class="button" href="/projects/species_richness/site/species_richness.html">View</a>
+        </article>
+
+        <article class="card featured-card">
+          <p class="status">Public-facing data visualization</p>
+          <h3>Broadband Access and the Digital Divide</h3>
+          <p class="meta">Tableau • California counties • Broadband adoption • Poverty</p>
+          <p>
+            A county-level Tableau analysis examining the gap between broadband availability and household adoption
+            across California. The dashboard combines poverty, service availability, connections, and unserved-share
+            measures to identify geographic disparities and priority counties.
+          </p>
+          <a class="button" href="/projects/broadband_tableau/site/broadband_access.html">View</a>
+        </article>
+
+        <article class="card featured-card">
+          <p class="status">Business reporting</p>
+          <h3>Wide World Importers: Sales Trends</h3>
+          <p class="meta">Power BI • Time-series reporting • KPI design • Segment analysis</p>
+          <p>
+            A Power BI report designed to show sales performance over time and identify the segments driving change.
+            KPI cards, trend views, segment comparisons, and filters support a concise progression from high-level
+            performance to more detailed investigation.
+          </p>
+          <a class="button" href="/projects/wideworldimporters/site/sales_trends.html">View</a>
+        </article>
+
+        <article class="card featured-card">
+          <p class="status">Operational reporting</p>
+          <h3>Wide World Importers: Inventory Health</h3>
+          <p class="meta">Power BI • Inventory risk • KPI design • Operational analysis</p>
+          <p>
+            An inventory dashboard focused on stock risk, slow-moving items, and operational triage. The report uses
+            inventory turns, days of supply, stockout measures, trends, and category comparisons to help locate areas
+            requiring closer review.
+          </p>
+          <a class="button" href="/projects/wideworldimporters/site/wwi_inventory.html">View</a>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+
+  <script src="/script.js"></script>
 </body>
 </html>

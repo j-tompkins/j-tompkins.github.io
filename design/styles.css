@@ -290,3 +290,20 @@ hr {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Uniform project-card sizing across landing and Past Projects pages */
+.featured-grid .featured-card,
+.current-projects-card,
+.past-card {
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 700px) {
+  .featured-grid .featured-card,
+  .current-projects-card,
+  .past-card {
+    width: 100%;
+  }
+}
