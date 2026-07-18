@@ -307,3 +307,13 @@ hr {
     width: 100%;
   }
 }
+
+.project-figure {
+    float: right;
+    width: 320px;
+    margin: 0 0 1rem 2rem;
+}
+
+.project-figure img {
+    width: 100%;
+}
