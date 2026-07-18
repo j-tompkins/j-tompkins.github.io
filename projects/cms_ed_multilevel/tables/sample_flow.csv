@@ -1,0 +1,10 @@
+step,n
+Hospitals in General Information file,5432
+Located in 50 states or DC,5366
+Reported emergency services,4437
+Had a numeric OP-18b score,3913
+"Had a plausible OP-18b score (15–1,440 minutes)",3913
+Complete hospital characteristics for broad analysis,3627
+Acute-care or critical-access hospital (primary cohort),3598
+Also had an overall hospital rating,2740
+States/DC in primary model,51

@@ -1,0 +1,5 @@
+stage,initial_plan,observed_issue,revised_decision,reason
+Emergency-services eligibility,Filter hospitals coded as Yes,CMS values required normalization rather than a literal lowercase match,Use a flexible affirmative-value function,Prevent valid hospitals from being excluded because of coding format
+ED-volume variable,Recode historical numeric volume ranges,"Current CMS release uses Low, Medium, High, and Very high",Use the current ordered CMS categories,Retain the published classification and avoid unsupported numeric assumptions
+Hospital target population,Include all hospital types and adjust using hospital type,"Psychiatric, children's, federal, and long-term facilities have structurally different care systems",Restrict the primary cohort to acute-care and critical-access hospitals,Improve comparability while retaining excluded types for transparent secondary analyses
+Overall hospital rating,Include rating in the primary adjustment set,Rating was missing for many hospitals and is itself a composite quality measure,Use rating only in a sensitivity model,Preserve sample size and avoid overadjusting for a downstream quality construct

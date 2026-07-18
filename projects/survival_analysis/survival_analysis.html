@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>BMI and All-Cause Mortality — Justin Tompkins</title>
+  <meta name="description" content="Survival analysis of BMI and all-cause mortality using NHANES III linked mortality data."/>
+  <link rel="stylesheet" href="/design/styles.css"/>
+</head>
+<body>
+  <header class="container header project-header">
+    <p class="eyebrow">Statistical Investigation</p>
+    <h1>BMI and All-Cause Mortality</h1>
+    <p class="tagline">Kaplan–Meier estimation, Cox regression, and flexible modeling using NHANES III linked mortality data</p>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
+    </nav>
+  </header>
+
+  <main class="container project-page">
+    <section class="summary-box">
+      <h2>Overview</h2>
+      <div class="summary-grid">
+        <p><strong>Research question</strong><br/>How does the way BMI is represented affect estimates of its relationship with all-cause mortality?</p>
+        <p><strong>Data</strong><br/>NHANES III linked mortality data, adults age 20+</p>
+        <p><strong>Methods</strong><br/>Kaplan–Meier curves, Cox regression, natural cubic splines</p>
+        <p><strong>Programming</strong><br/>R, survival, survminer, splines, tidyverse</p>
+      </div>
+      <p class="key-finding">
+        <strong>Key finding:</strong> A single linear coefficient did not fully describe the association. Flexible modeling showed elevated mortality hazard at low BMI, the lowest estimated hazard near the normal-weight range, and progressively higher hazard at higher BMI values.
+      </p>
+      <p>
+        <a class="button" href="/projects/survival_analysis/docs/Survival_Analysis_Technical_Writeup.docx">Download Technical Write-up</a>
+        <a class="button muted-button" href="https://github.com/j-tompkins/nhanes-bmi-survival" target="_blank" rel="noopener">View Repository</a>
+      </p>
+    </section>
+
+    <section id="question">
+      <h2>1. Question</h2>
+      <p>
+        I began with a familiar epidemiologic question: how is body mass index associated with mortality over time? As the analysis developed, the more interesting statistical question became how BMI should be represented in the model.
+      </p>
+      <p>
+        BMI is often divided into clinical categories because those groups are easy to communicate. However, categorizing a continuous variable discards information and assumes that risk changes abruptly at fixed cut points. I therefore compared linear, categorical, and flexible representations of BMI to see how the modeling decision affected interpretation.
+      </p>
+    </section>
+
+    <section id="approach">
+      <h2>2. Reasoning Behind the Approach</h2>
+      <p>
+        Mortality data require methods that account for both whether a death occurred and how long each participant was observed. Survival analysis provides that framework while allowing participants who remained alive at the end of follow-up to contribute information through the time they were observed.
+      </p>
+      <p>
+        I began with Kaplan–Meier curves to describe unadjusted survival across BMI categories. I then fit Cox proportional hazards models adjusted for age, sex, race, and smoking status. The models were built in stages so I could compare the simplicity of a linear term, the familiarity of clinical categories, and the flexibility of a natural cubic spline.
+      </p>
+      <div class="stat-box">
+        <p>
+          The central modeling decision was not simply whether BMI belonged in the model, but what functional form best represented its relationship with mortality.
+        </p>
+      </div>
+    </section>
+
+    <section id="data-prep">
+      <h2>3. Preparing the Data</h2>
+      <p>
+        The analysis used NHANES III examination and demographic data linked to mortality records through 2019. I merged files by participant identifier, restricted the cohort to adults age 20 or older, validated measured BMI and follow-up variables, and required complete information for the primary adjustment variables.
+      </p>
+      <p>
+        The final complete-case cohort included <strong>16,503 adults</strong>, with <strong>7,086 observed deaths</strong>. Rather than creating a separate flow diagram, I retained the cohort construction as a table so every exclusion remains visible and easy to verify.
+      </p>
+
+      <div class="table-wrap">
+        <h3>Table 1. Cohort Construction</h3>
+        <table>
+          <thead>
+            <tr><th>Step</th><th>Participants remaining</th><th>Excluded at step</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>NHANES III household adult records</td><td>20,050</td><td>—</td></tr>
+            <tr><td>Age 20 years or older</td><td>18,825</td><td>1,225</td></tr>
+            <tr><td>Eligible for mortality linkage</td><td>18,806</td><td>19</td></tr>
+            <tr><td>Measured BMI available</td><td>16,957</td><td>1,849</td></tr>
+            <tr><td>BMI within prespecified plausible range</td><td>16,954</td><td>3</td></tr>
+            <tr><td>Valid follow-up and mortality status</td><td>16,509</td><td>445</td></tr>
+            <tr><td>Complete primary-model covariates</td><td><strong>16,503</strong></td><td>6</td></tr>
+          </tbody>
+        </table>
+        <p class="file-link"><a href="/projects/survival_analysis/tables/table_01_cohort_flow.csv">Download cohort-flow table (CSV)</a></p>
+      </div>
+    </section>
+
+    <section id="exploration">
+      <h2>4. Exploring the Data</h2>
+      <p>
+        Before modeling mortality, I examined the distribution of measured BMI and checked how participants were distributed around the conventional category thresholds. Most observations were concentrated in the normal-weight and overweight ranges, with a long right tail at higher BMI values.
+      </p>
+
+      <figure class="wide-figure">
+        <a href="/assets/img/nhanes_bmi_survival/figure_01_bmi_distribution.png" target="_blank" rel="noopener">
+          <img src="/assets/img/nhanes_bmi_survival/figure_01_bmi_distribution.png" alt="Distribution of measured BMI in the NHANES III analytic mortality cohort">
+        </a>
+        <figcaption>Figure 1. Distribution of measured BMI. Dashed lines mark conventional BMI category thresholds.</figcaption>
+      </figure>
+
+      <p>
+        I then used Kaplan–Meier curves to compare unadjusted survival across BMI categories. Underweight participants had the poorest survival throughout much of follow-up. Normal-weight participants retained the highest survival probability, while the overweight and obesity curves were closer together and changed relative position over time.
+      </p>
+
+      <figure class="wide-figure">
+        <a href="/assets/img/nhanes_bmi_survival/figure_02_kaplan_meier.png" target="_blank" rel="noopener">
+          <img src="/assets/img/nhanes_bmi_survival/figure_02_kaplan_meier.png" alt="Kaplan-Meier survival curves by baseline BMI category with number at risk">
+        </a>
+        <figcaption>Figure 2. Kaplan–Meier survival by baseline BMI category, including the number at risk.</figcaption>
+      </figure>
+
+      <div class="stat-box">
+        <p>
+          The curves established that survival differed across BMI groups, but they could not separate BMI from age, smoking, or other group differences. That limitation motivated the adjusted Cox models.
+        </p>
+      </div>
+    </section>
+
+    <section id="model">
+      <h2>5. Building the Models</h2>
+      <p>
+        I fit three adjusted Cox proportional hazards models using the same covariates but different representations of BMI. The first treated BMI as a single linear term. The second used clinical categories with normal weight as the reference group. The third used a natural cubic spline with four degrees of freedom.
+      </p>
+      <p>
+        This sequence allowed me to compare interpretability with flexibility. The linear model produced one compact estimate, the categorical model produced familiar group comparisons, and the spline preserved BMI as a continuous measure while allowing the shape of the association to vary.
+      </p>
+
+      <div class="table-wrap">
+        <h3>Table 2. Model Comparison</h3>
+        <table>
+          <thead><tr><th>BMI specification</th><th>Parameters</th><th>AIC</th><th>ΔAIC</th></tr></thead>
+          <tbody>
+            <tr><td>Natural cubic spline</td><td>10</td><td>120,641.8</td><td>0.0</td></tr>
+            <tr><td>Categorical BMI</td><td>9</td><td>120,717.9</td><td>76.2</td></tr>
+            <tr><td>Linear BMI</td><td>7</td><td>120,755.9</td><td>114.2</td></tr>
+          </tbody>
+        </table>
+        <p class="file-link"><a href="/projects/survival_analysis/tables/table_03_model_comparison.csv">Download model-comparison table (CSV)</a></p>
+      </div>
+    </section>
+
+    <section id="results">
+      <h2>6. Interpreting the Results</h2>
+      <p>
+        In the linear model, each one-unit increase in BMI was associated with approximately a <strong>1.4% higher mortality hazard</strong> after adjustment. A ten-unit difference corresponded to an estimated hazard ratio of about 1.14, but that summary assumes the same slope across the entire BMI range.
+      </p>
+      <p>
+        The categorical model showed why that assumption was incomplete. Relative to normal weight, underweight was associated with substantially higher mortality hazard (HR ≈ 1.62), overweight was not meaningfully different (HR ≈ 0.97), and obesity was associated with moderately higher hazard (HR ≈ 1.19).
+      </p>
+      <p>
+        The spline model brought these findings together. Estimated hazard was elevated at low BMI, reached its minimum near the normal-weight range, and increased progressively at higher BMI values. This pattern was not well summarized by either one linear coefficient or a small set of categories.
+      </p>
+
+      <figure class="wide-figure">
+        <a href="/assets/img/nhanes_bmi_survival/figure_03_spline_bmi_hr.png" target="_blank" rel="noopener">
+          <img src="/assets/img/nhanes_bmi_survival/figure_03_spline_bmi_hr.png" alt="Adjusted hazard ratio across BMI from a natural cubic spline Cox model">
+        </a>
+        <figcaption>Figure 3. Adjusted association between BMI and all-cause mortality. The shaded region is the 95% confidence interval.</figcaption>
+      </figure>
+    </section>
+
+    <section id="diagnostics">
+      <h2>7. Checking Model Assumptions</h2>
+      <p>
+        I evaluated the proportional hazards assumption using Schoenfeld residuals. The global test and several covariate-specific tests indicated evidence of non-proportionality, including for BMI. This means the fitted hazard ratios should not automatically be interpreted as constant effects across the full follow-up period.
+      </p>
+      <p>
+        I retained the Cox models because they remain useful for comparing functional forms, but I treated the diagnostics as part of the interpretation rather than as a final box to check. A fuller extension would model time-varying effects or use a survival model that relaxes the proportional hazards assumption.
+      </p>
+
+      <figure class="wide-figure diagnostic-figure">
+        <a href="/assets/img/nhanes_bmi_survival/figure_04_ph_diagnostics.png" target="_blank" rel="noopener">
+          <img src="/assets/img/nhanes_bmi_survival/figure_04_ph_diagnostics.png" alt="Schoenfeld residual plots used to assess proportional hazards">
+        </a>
+        <figcaption>Figure 4. Schoenfeld-residual diagnostics for the spline Cox model.</figcaption>
+      </figure>
+    </section>
+
+    <section id="reasoning">
+      <h2>8. Statistical Reasoning</h2>
+      <p>
+        The main contribution of this project is the comparison of modeling choices. Categorization offered familiar clinical summaries but imposed fixed boundaries. A linear term retained the full measurement but imposed a constant effect. The spline preserved continuity while allowing the data to reveal a nonlinear pattern.
+      </p>
+      <p>
+        The analysis also reinforced that model diagnostics are part of the analysis itself. The proportional-hazards findings limit a simple time-constant interpretation and identify a clear direction for extending the work.
+      </p>
+    </section>
+
+    <section id="limitations">
+      <h2>9. Limitations and Future Work</h2>
+      <p>
+        BMI is an imperfect measure of body composition, and only baseline BMI was modeled. The analysis is observational, residual confounding remains possible, and this first version does not incorporate the NHANES complex survey design into the Cox models.
+      </p>
+      <p>
+        Future work could examine time-varying coefficients, survey-weighted survival models, flexible parametric survival models, and alternative anthropometric measures such as waist circumference.
+      </p>
+    </section>
+
+    <section id="conclusions">
+      <h2>Conclusions</h2>
+      <ul>
+        <li>The functional form of a continuous predictor can materially change the scientific interpretation.</li>
+        <li>Clinical categories are easy to communicate but can conceal gradual or nonlinear changes in risk.</li>
+        <li>Flexible modeling revealed a pattern that a single linear coefficient did not capture.</li>
+        <li>Assumption checks should shape interpretation and future model development.</li>
+      </ul>
+      <p>
+        <a class="button" href="/projects/survival_analysis/docs/Survival_Analysis_Technical_Writeup.docx">Read the Detailed Technical Write-up</a>
+        <a class="button muted-button" href="/projects/survival_analysis/tables/table_02_characteristics.csv">Download Descriptive Table</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

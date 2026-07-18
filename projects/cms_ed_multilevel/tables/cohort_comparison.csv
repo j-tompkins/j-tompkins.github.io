@@ -1,0 +1,4 @@
+cohort_status,hospital_type,hospitals,percent_within_status
+Included in primary cohort,Acute care,2592,72.04002223457476
+Included in primary cohort,Critical access,1006,27.959977765425236
+Retained for extension/sensitivity analysis,Department of Defense,29,100

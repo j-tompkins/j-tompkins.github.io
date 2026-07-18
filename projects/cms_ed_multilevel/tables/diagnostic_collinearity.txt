@@ -1,0 +1,8 @@
+# Check for Multicollinearity
+
+Low Correlation
+
+               Term  VIF   VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+          ed_volume 1.68 [1.61, 1.76]     1.30      0.60     [0.57, 0.62]
+      hospital_type 1.69 [1.62, 1.78]     1.30      0.59     [0.56, 0.62]
+ hospital_ownership 1.10 [1.07, 1.15]     1.05      0.91     [0.87, 0.94]

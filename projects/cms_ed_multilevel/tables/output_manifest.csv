@@ -1,0 +1,8 @@
+output_type,location
+Primary processed data,data/processed/cms_ed_analysis.csv
+Broad sensitivity data,data/processed/cms_ed_broad_analysis.csv
+Nonprimary hospitals,data/processed/cms_ed_nonprimary_hospitals.csv
+Decision log,output/tables/analysis_decision_log.csv
+Primary models,data/processed/primary_models.rds
+Figures,output/figures/
+Tables,output/tables/

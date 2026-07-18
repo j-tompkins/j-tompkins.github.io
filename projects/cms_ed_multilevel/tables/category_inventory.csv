@@ -1,0 +1,28 @@
+variable,category,n
+emergency_services,Yes,4498
+emergency_services,No,934
+hospital_type,Acute Care Hospitals,3115
+hospital_type,Critical Access Hospitals,1378
+hospital_type,Psychiatric,635
+hospital_type,Acute Care - Veterans Administration,132
+hospital_type,Childrens,94
+hospital_type,Rural Emergency Hospital,41
+hospital_type,Acute Care - Department of Defense,32
+hospital_type,Long-term,5
+hospital_ownership,Voluntary non-profit - Private,2316
+hospital_ownership,Proprietary,1067
+hospital_ownership,Government - Hospital District or Authority,516
+hospital_ownership,Government - Local,397
+hospital_ownership,Voluntary non-profit - Other,355
+hospital_ownership,Voluntary non-profit - Church,268
+hospital_ownership,Government - State,209
+hospital_ownership,Veterans Health Administration,132
+hospital_ownership,Physician,81
+hospital_ownership,Government - Federal,43
+hospital_ownership,Department of Defense,32
+hospital_ownership,Tribal,16
+ed_volume,low,1666
+ed_volume,medium,915
+ed_volume,NA,823
+ed_volume,very high,704
+ed_volume,high,552

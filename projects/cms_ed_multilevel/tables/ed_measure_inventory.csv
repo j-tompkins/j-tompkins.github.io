@@ -1,0 +1,7 @@
+measure_id,measure_name
+EDV,Emergency department volume
+OP_18a,"Average (median) time all patients spent in the emergency department before leaving from the visit, including psychiatric/mental health patients and patients who were transferred to another facility. A lower number of minutes is better"
+OP_18b,"Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better"
+OP_18c,Average (median) time psychiatric/mental health patients spent in the emergency department before leaving from the visit. A lower number of minutes is better
+OP_18d,Average (median) time patients spent in the emergency department before being transferred to another facility. A lower number of minutes is better
+OP_22,Left before being seen

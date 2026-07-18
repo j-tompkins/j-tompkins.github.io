@@ -1,0 +1,31 @@
+measure_id,measure_name
+EDV,Emergency department volume
+GMCS,Global Malnutrition Composite Score
+GMCS_Malnutrition_Diagnosis_Documented,Global Malnutrition Composite Score: Malnutrition Diagnosis Documented
+GMCS_Malnutrition_Screening,Global Malnutrition Composite Score: Malnutrition Risk Screening
+GMCS_Nutrition_Assessment,Global Malnutrition Composite Score: Nutrition Assessment
+GMCS_Nutritional_Care_Plan,Global Malnutrition Composite Score: Nutritional Care Plan
+HH_HYPER,Hospital Harm - Severe Hyperglycemia
+HH_HYPO,Hospital Harm - Severe Hypoglycemia
+HH_ORAE,Hospital Harm - Opioid Related Adverse Events
+IMM_3,Healthcare workers given influenza vaccination
+OP_18a,"Average (median) time all patients spent in the emergency department before leaving from the visit, including psychiatric/mental health patients and patients who were transferred to another facility. A lower number of minutes is better"
+OP_18b,"Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better"
+OP_18c,Average (median) time psychiatric/mental health patients spent in the emergency department before leaving from the visit. A lower number of minutes is better
+OP_18d,Average (median) time patients spent in the emergency department before being transferred to another facility. A lower number of minutes is better
+OP_22,Left before being seen
+OP_23,Head CT results
+OP_29,Endoscopy/polyp surveillance: appropriate follow-up interval for normal colonoscopy in average risk patients
+OP_31,Improvement in Patient's Visual Function within 90 Days Following Cataract Surgery
+OP_40,ST-Segment Elevation Myocardial Infarction (STEMI)
+SAFE_USE_OF_OPIOIDS,Safe Use of Opioids - Concurrent Prescribing
+SEP_1,Appropriate care for severe sepsis and septic shock
+SEP_SH_3HR,Septic Shock 3-Hour Bundle
+SEP_SH_6HR,Septic Shock 6-Hour Bundle
+SEV_SEP_3HR,Severe Sepsis 3-Hour Bundle
+SEV_SEP_6HR,Severe Sepsis 6-Hour Bundle
+STK_02,Discharged on Antithrombotic Therapy
+STK_03,Anticoagulation Therapy for Atrial Fibrillation/Flutter
+STK_05,Antithrombotic Therapy by End of Hospital Day 2
+VTE_1,Venous Thromboembolism Prophylaxis
+VTE_2,Intensive Care Unit Venous Thromboembolism Prophylaxis

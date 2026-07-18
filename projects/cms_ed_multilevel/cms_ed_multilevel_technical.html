@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Technical Write-up: Emergency Department Throughput — Justin Tompkins</title>
+  <meta name="description" content="Technical documentation for a multilevel analysis of emergency department throughput using CMS Care Compare data."/>
+  <link rel="stylesheet" href="/design/styles.css"/>
+</head>
+<body>
+  <header class="container header project-header">
+    <p class="eyebrow">Technical Write-up</p>
+    <h1>Emergency Department Throughput Across States</h1>
+    <p class="tagline">Data preparation, multilevel model development, diagnostics, and sensitivity analysis</p>
+    <nav class="nav">
+      <a href="/index.html">Home</a>
+      <a href="/projects/cms_ed_multilevel/cms_ed_multilevel.html">Project Summary</a>
+      <a href="/assets/Tompkins_Resume_2026.pdf" target="_blank" rel="noopener">Resume/CV</a>
+    </nav>
+  </header>
+
+  <main class="container project-page">
+    <section class="summary-box">
+      <h2>Technical Summary</h2>
+      <div class="summary-grid">
+        <p><strong>Outcome</strong><br/>CMS OP-18b median ED throughput, measured in minutes</p>
+        <p><strong>Hierarchy</strong><br/>Hospitals nested within states</p>
+        <p><strong>Primary model</strong><br/>Linear random-intercept model</p>
+        <p><strong>Primary cohort</strong><br/>3,627 acute-care and critical-access hospitals</p>
+      </div>
+      <p class="key-finding">
+        This document provides the methodological detail supporting the condensed project page. Final numerical interpretation should be inserted after the exported model tables have been reviewed and verified.
+      </p>
+    </section>
+
+    <section>
+      <h2>1. Study Objective</h2>
+      <p>
+        The study objective was to quantify the extent to which emergency department throughput varies across hospitals and states. The primary inferential question was whether meaningful between-state variation remains after adjustment for hospital type, ownership, and emergency department volume.
+      </p>
+      <p>
+        The modeling strategy was designed to emphasize variance partitioning rather than prediction alone. This distinction motivated the use of an empty random-intercept model, an intraclass correlation coefficient, and a comparison of state variance before and after hospital-level adjustment.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Data Sources</h2>
+      <p>
+        The analysis used two publicly available CMS Care Compare hospital datasets: Hospital General Information and Timely and Effective Care — Hospital. Facility ID was read as character data to preserve leading zeroes and used as the linkage key.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source</th><th>Variables used</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>Hospital General Information</td><td>Facility name, state, hospital type, ownership, emergency services, overall rating</td><td>Hospital characteristics and analytic eligibility</td></tr>
+            <tr><td>Timely and Effective Care</td><td>OP-18b and EDV</td><td>Throughput outcome and CMS ED-volume category</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Data Audit and Analytic Cohort</h2>
+      <p>
+        The workflow deliberately separated import, data auditing, cleaning, descriptive analysis, modeling, diagnostics, and export. This separation reduced the risk of embedding untested assumptions directly into the cleaning code.
+      </p>
+      <p>
+        The data audit showed that CMS currently reports emergency department volume as low, medium, high, and very high. It also showed that the hospital file contains several specialized facility types. The primary population was therefore restricted to acute-care and critical-access hospitals that reported emergency services, had a plausible OP-18b value, and had complete primary model predictors.
+      </p>
+      <figure class="wide-figure">
+        <img src="/assets/img/cms_ed_multilevel/01_hospital_type_scope.png" alt="Emergency department throughput across hospital types considered during cohort development">
+        <figcaption>Figure 1. Hospital-type distributions used to refine the target population.</figcaption>
+      </figure>
+      <p>
+        Specialized hospitals remained in a broader processed dataset and were incorporated into a sensitivity model. This preserved transparency and allowed the primary restriction to be evaluated empirically.
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Variable Construction</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variable</th><th>Construction</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>ED throughput</td><td>Numeric OP-18b score; restricted to plausible values</td><td>Continuous outcome</td></tr>
+            <tr><td>State</td><td>CMS two-letter state code; 50 states and DC</td><td>Random-intercept grouping variable</td></tr>
+            <tr><td>Hospital type</td><td>Acute-care versus critical-access hospital</td><td>Fixed effect</td></tr>
+            <tr><td>Ownership</td><td>Collapsed into nonprofit, government, proprietary, and other</td><td>Fixed effect</td></tr>
+            <tr><td>ED volume</td><td>Low, medium, high, or very high</td><td>Fixed effect</td></tr>
+            <tr><td>Overall rating</td><td>Parsed numeric CMS rating</td><td>Sensitivity analysis only</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Descriptive Analysis</h2>
+      <p>
+        Descriptive analysis examined the outcome distribution, hospital composition, throughput across hospital characteristics, and unadjusted state means. The purpose was to identify implausible values, characterize the analytic population, and assess whether state-level variation was visible before model fitting.
+      </p>
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/02_throughput_distribution.png" alt="Histogram of emergency department throughput">
+          <figcaption>Figure 2. Distribution of the primary outcome.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/03_observed_state_means.png" alt="Observed mean emergency department throughput by state">
+          <figcaption>Figure 3. Unadjusted state means.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Model Specification</h2>
+      <p>The primary adjusted model was specified as:</p>
+      <div class="stat-box">
+        <p><strong>ED throughput = hospital type + ownership + ED volume + state random intercept</strong></p>
+      </div>
+      <p>
+        Let <em>Y<sub>ij</sub></em> denote throughput for hospital <em>i</em> in state <em>j</em>. The random-intercept model can be written as:
+      </p>
+      <div class="stat-box">
+        <p><em>Y<sub>ij</sub> = β<sub>0</sub> + βX<sub>ij</sub> + u<sub>j</sub> + ε<sub>ij</sub></em></p>
+      </div>
+      <p>
+        The state effects <em>u<sub>j</sub></em> are assumed to follow a normal distribution with variance σ²<sub>state</sub>, while the hospital-level residuals ε<sub>ij</sub> have variance σ²<sub>hospital</sub>.
+      </p>
+      <p>The empty-model ICC was calculated as:</p>
+      <div class="stat-box">
+        <p><em>ICC = σ²<sub>state</sub> / (σ²<sub>state</sub> + σ²<sub>hospital</sub>)</em></p>
+      </div>
+      <p>
+        The ICC represents the proportion of unexplained outcome variation attributable to differences between states before hospital characteristics are added.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Primary Results</h2>
+      <p>
+        Final numerical results should be populated directly from <a href="/projects/cms_ed_multilevel/tables/variance_components.csv">variance_components.csv</a> and <a href="/projects/cms_ed_multilevel/tables/adjusted_fixed_effects.csv">adjusted_fixed_effects.csv</a>. The reporting sequence should begin with the ICC, followed by the change in state variance after adjustment, and then the hospital-level coefficients.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Result</th><th>Value</th><th>Interpretation template</th></tr></thead>
+          <tbody>
+            <tr><td>Empty-model ICC</td><td>[Insert]</td><td>Approximately [x%] of unexplained throughput variation occurred between states.</td></tr>
+            <tr><td>State variance, empty model</td><td>[Insert]</td><td>Baseline between-state heterogeneity.</td></tr>
+            <tr><td>State variance, adjusted model</td><td>[Insert]</td><td>Residual state heterogeneity after hospital adjustment.</td></tr>
+            <tr><td>Largest hospital-level association</td><td>[Insert]</td><td>Adjusted mean difference relative to its reference category.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/06_partial_pooling.png" alt="Observed and partially pooled state estimates">
+          <figcaption>Figure 4. Partial pooling of state estimates.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/07_adjusted_coefficients.png" alt="Adjusted fixed-effect estimates">
+          <figcaption>Figure 5. Adjusted hospital-level estimates.</figcaption>
+        </figure>
+      </div>
+      <figure class="wide-figure">
+        <img src="/assets/img/cms_ed_multilevel/10_state_random_effects.png" alt="Adjusted state random effects">
+        <figcaption>Figure 6. State random effects from the adjusted model.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>8. Diagnostics</h2>
+      <p>
+        Residual-versus-fitted and Q-Q plots were used to assess functional form, residual spread, and approximate normality. The workflow also evaluated multicollinearity, heteroscedasticity, residual normality, and singularity using the performance package.
+      </p>
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/08_residuals_vs_fitted.png" alt="Residuals versus fitted values">
+          <figcaption>Figure 7. Residuals versus fitted values.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/img/cms_ed_multilevel/09_residual_qq_plot.png" alt="Residual Q-Q plot">
+          <figcaption>Figure 8. Residual Q-Q plot.</figcaption>
+        </figure>
+      </div>
+      <p>
+        The final write-up should describe any visible departures from assumptions and whether they were substantial enough to affect interpretation. Diagnostics should be treated as evidence for model adequacy, not as a checklist detached from the scientific question.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Sensitivity Analyses</h2>
+      <p>
+        Two sensitivity analyses were planned. The first added overall hospital rating, accepting a smaller complete-case sample to determine whether the primary estimates were sensitive to this additional adjustment. The second expanded the cohort to include additional hospital types and added hospital type as a broader categorical predictor.
+      </p>
+      <p>
+        Results should be summarized from <a href="/projects/cms_ed_multilevel/tables/cohort_sensitivity_comparison.csv">cohort_sensitivity_comparison.csv</a>. The central question is not whether every coefficient is identical, but whether the main conclusions about state variation and hospital-level associations change materially.
+      </p>
+    </section>
+
+    <section>
+      <h2>10. Interpretation and Limitations</h2>
+      <p>
+        The random intercept captures residual differences between states after measured hospital characteristics are included. It should not be interpreted as a causal effect of state policy. State effects may reflect unmeasured workforce, market, rurality, regulatory, or healthcare-capacity differences.
+      </p>
+      <p>
+        The project also relies on CMS-reported hospital measures and complete-case analysis. Missingness may be informative, and the OP-18b measure summarizes hospital performance over a reporting period rather than individual patient experiences. The model describes associations at the hospital level and should not be interpreted as a patient-level causal analysis.
+      </p>
+    </section>
+
+    <section>
+      <h2>11. Reproducibility</h2>
+      <p>The R workflow is organized into separate stages:</p>
+      <ol>
+        <li>Import</li>
+        <li>Data audit</li>
+        <li>Cleaning and cohort construction</li>
+        <li>Descriptive analysis</li>
+        <li>Multilevel modeling</li>
+        <li>Diagnostics and sensitivity analyses</li>
+        <li>Output export</li>
+      </ol>
+      <p>
+        Separating these stages makes it possible to inspect the raw data structure, record analytic decisions, and reproduce each output without concealing intermediate steps.
+      </p>
+    </section>
+
+    <section>
+      <h2>Supporting Files</h2>
+      <ul>
+        <li><a href="/projects/cms_ed_multilevel/tables/sample_flow.csv">Sample flow</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/analysis_decision_log.csv">Analysis decision log</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/analysis_summary.csv">Analysis summary</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/model_comparison.csv">Model comparison</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/variance_components.csv">Variance components</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/adjusted_fixed_effects.csv">Adjusted fixed effects</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/partial_pooling_state_estimates.csv">Partial-pooling estimates</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/cohort_sensitivity_comparison.csv">Sensitivity comparison</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        LinkedIn: <a href="https://www.linkedin.com/in/justintomp" rel="noopener">www.linkedin.com/in/justintomp</a><br/>
+        Email: <a href="mailto:tompkins.justin13@gmail.com">tompkins.justin13@gmail.com</a>
+      </p>
+    </section>
+    <small>© <span id="year"></span> Justin Tompkins</small>
+  </footer>
+  <script src="/script.js"></script>
+</body>
+</html>
