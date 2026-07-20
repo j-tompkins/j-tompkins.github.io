@@ -31,10 +31,6 @@
       <p class="key-finding">
         <strong>Primary objective:</strong> Separate hospital-level variation from state-level variation and determine whether state differences remain after adjustment for hospital type, ownership, and emergency department volume.
       </p>
-      <p>
-        <a class="button" href="/projects/cms_ed_multilevel/cms_ed_multilevel_technical.html">Read the technical write-up</a>
-        <a class="button muted-button" href="https://github.com/j-tompkins" target="_blank" rel="noopener">View code on GitHub</a>
-      </p>
     </section>
 
     <section id="question">
@@ -131,7 +127,7 @@
     <section id="model">
       <h2>5. Building the Models</h2>
       <p>
-        I built the analysis in stages so that each model answered a distinct statistical question. The ordinary regression model established a familiar baseline. The empty multilevel model estimated the state-level variance before adjustment. The primary adjusted model then tested whether state variation remained after hospital characteristics were included.
+        I built the analysis in stages so that each model answered a distinct question. The ordinary regression model established a familiar baseline. The empty multilevel model estimated the state-level variance before adjustment. The primary adjusted model then tested whether state variation remained after hospital characteristics were included.
       </p>
       <ol>
         <li><strong>Ordinary linear regression:</strong> estimated adjusted hospital-level associations without accounting for state clustering.</li>
@@ -147,7 +143,7 @@
     </section>
 
     <section id="results">
-      <h2>6. Interpreting the Results</h2>
+      <h2>6.Results</h2>
       <p>
         The results are interpreted in two parts. The variance components and ICC address whether state clustering is meaningful. The fixed-effect estimates describe how throughput differs by hospital type, ownership, and emergency department volume while holding the other characteristics constant.
       </p>
@@ -227,12 +223,12 @@
     <section id="resources">
       <h2>Project Files</h2>
       <ul>
-        <li><a href="/projects/cms_ed_multilevel/cms_ed_multilevel_technical.html">Detailed technical write-up</a></li>
-        <li><a href="/projects/cms_ed_multilevel/tables/sample_flow.csv">Sample-flow table</a></li>
-        <li><a href="/projects/cms_ed_multilevel/tables/analysis_decision_log.csv">Analysis decision log</a></li>
-        <li><a href="/projects/cms_ed_multilevel/tables/variance_components.csv">Variance components and ICC</a></li>
-        <li><a href="/projects/cms_ed_multilevel/tables/adjusted_fixed_effects.csv">Adjusted fixed-effect estimates</a></li>
-        <li><a href="/projects/cms_ed_multilevel/tables/cohort_sensitivity_comparison.csv">Cohort sensitivity comparison</a></li>
+        <li><a href="/projects/cms_ed_multilevel/cms_ed_multilevel_technical.html">Detailed Technical Notes</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/sample_flow.csv">Sample Breakdown</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/analysis_decision_log.csv">Analysis Decision log</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/variance_components.csv">Variance Components and ICC</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/adjusted_fixed_effects.csv">Adjusted Fixed-Effect Estimates</a></li>
+        <li><a href="/projects/cms_ed_multilevel/tables/cohort_sensitivity_comparison.csv">Cohort Sensitivity Comparison</a></li>
       </ul>
     </section>
 
